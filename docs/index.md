@@ -1,17 +1,76 @@
-# Welcome to MkDocs
+## 课程简介（Course Summary and Syllabus)
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+本讲义涵盖了三门课程，包括数据风控与信用评分；数据挖掘与资产评估；Python金融建模
 
-## Commands
+这几门课程是广东金融学院信用管理学院的选修课程。
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## 课程时间需求（Course Meeting Time)
 
-## Project layout
+* 学期或学年（2学分）：每周两个小时的讲授和课上实践 ; 每周不少于两个小时的课后实践
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## 课程先修（Course Prerequisites）
+
+资产评估专业需先修资产评估智能化技术课程
+
+信用管理等专业需先修python程序基础课程
+
+## 课程描述
+
+### 数据风控与信用评分
+
+本课程的目的是让学生掌握数据风控与信用评分的基础知识和技能，了解风险管理和信用评估，并能够结合python程序设计应用于实践中。通过学习这个课程，学生将具备基础的设计信用评级和评分系统并使用相关程序语言实现的能力。
+
+#### 课程主要内容
+
+1. 进一步提高学生使用python语言工作的能力
+2. 信用评级模型和信用评分模型：Logistic回归、决策树、随机森林等基线模型；
+3. 数据预处理和特征工程；
+4. 统计学习（机器学习相关模型）
+5. 数据风控基本概念和信用评估方法：风险类型、风险评估、风险管理、风险评估
+6. 案例分析和讨论
+
+#### 讲义使用
+
+python金融建模基础与应用的1、2、3、4、9、10、13、15章
+
+### 数据挖掘与资产评估
+
+本课程的目的是让学生掌握数据挖掘的基础知识和技能，特别是对于与资产评估相关的python库操作并能够结合python程序设计应用于实践中。通过学习这个课程，学生将具备一定的数据挖掘能力并使用相关程序语言实现基础资产定价模型、资产评估模型的能力。
+
+#### 课程主要内容
+
+1. 进一步提高学生使用python语言工作的能力
+2. 数据预处理和特征工程；
+3. 金融建模基础方法（时间序列建模）；
+4. 自然语言处理和大语言模型基础
+5. 一般资产定价和自主评估模型的程序实现
+6. 案例分析和讨论
+
+#### 讲义使用
+
+python金融建模基础与应用的1、2、3、4、8、9、12、16章
+
+## 推荐的其他读物和资源
+
+[CSDN程序员博客](https://www.csdn.net/) 
+
+[github.com](https://github.com/)
+
+[Python官网](https://www.python.org/)
+
+[Scikit-learn 官网 ](https://scikit-learn.org/stable/)
+
+[Regular expressions 101](https://regex101.com/)
+
+[OLLAMA](https://ollama.com/)
+
+
+## 课程评分
+
+2024年8月22日第一次修订：
+
+考勤：15分
+
+个人项目：50分
+
+团队项目：35分
