@@ -52,7 +52,7 @@ python金融建模基础与应用的1、2、3、4、8、9、12、16章
 
 ## 推荐的其他读物和资源
 
-[CSDN程序员博客](https://www.csdn.net/) 
+[CSDN程序员博客](https://www.csdn.net/)
 
 [github.com](https://github.com/)
 
@@ -64,13 +64,12 @@ python金融建模基础与应用的1、2、3、4、8、9、12、16章
 
 [OLLAMA](https://ollama.com/)
 
-
 ## 课程评分
 
 2024年8月22日第一次修订：
 
 考勤：15分
 
-个人项目：50分
+个人项目和作业：50分
 
 团队项目：35分
