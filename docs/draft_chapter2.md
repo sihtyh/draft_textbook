@@ -313,7 +313,7 @@ print(re.match('p',"PYTHON",re.I)）  #使匹配对大小写不敏感
 ```
 import re
 def is_valid_mobile(number):
-   pattern = r'^13[0-9]{8}[6789]$'
+   pattern = r'13[0-9]{8}[6789]'
    if re.match(pattern, number):
        return True
    else:
@@ -359,7 +359,7 @@ def split_sentences(text):
 ```python
 import re
 def is_valid_qq_email(email):
-   pattern = r'^[1-9]\d{5,15}@qq\.com$'
+   pattern = r'[1-9]\d{5,15}@qq\.com'
    if re.match(pattern, email):
        return True
    else:
