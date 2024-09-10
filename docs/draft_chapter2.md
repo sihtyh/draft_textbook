@@ -202,6 +202,24 @@ sentence  =  ' '.join(words)
 print(sentence)   # 输出：hello world python
 ```
 
+**字符串分割（split)**
+
+Python 中的 `split()` 函数是一个字符串方法，根据指定的分隔符将字符串拆分成子串列表。
+
+语法为：string.split(分隔符, maxsplit)
+
+** 参数 **
+
+* `分隔符`：用于分隔字符串元素的字符或子串。如果不指定，默认为空白字符（空格、制表符等）。
+* `maxsplit`：执行拆分操作的最大次数。如果不指定，默认为 `-1`，表示无限制。
+
+```python
+my_string = "apple,banana,orange"
+print(my_string.split(","))  # 输出： ["apple", "banana", "orange"]
+```
+
+
+
 ##### 2.2.2 高级字符串操作
 
 我们将探索 Python 中三个高级的字符串操作方法：字符串格式化和占位符、将不同数据类型转换为字符串。

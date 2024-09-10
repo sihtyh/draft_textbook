@@ -24,7 +24,7 @@ Python 编程介绍
 
 Python 的诞生（1989-1992）
 
-Python 的创始人 Guido van Rossum 是荷兰计算机程序员，他创建了 Python 编程语言。他于1958年1月31日出生于荷兰哈勒姆（Haarlem），Guido 从小q青少年时代就开始学习编程，后来在阿姆斯特丹大学学习数学和计算机科学。他毕业后在阿姆斯特丹国家研究院数学和计算机科学（CWI）工作。Python 的诞生 在 1980年代末期，Guido van Rossum 在 CWI 工作时决定创建一个新的编程语言。他想创造一个易于学习和使用的语言，有着清楚和简洁的语法。他吸收了各种语言的灵感，包括 ABC、Modula-3 和 C。
+Python 的创始人 Guido van Rossum 是荷兰计算机程序员，他创建了 Python 编程语言。他于1958年1月31日出生于荷兰哈勒姆（Haarlem），Guido 从青少年时代就开始学习编程，后来在阿姆斯特丹大学学习数学和计算机科学。他毕业后在阿姆斯特丹国家研究院数学和计算机科学（CWI）工作。Python 的诞生 在 1980年代末期，Guido van Rossum 在 CWI 工作时决定创建一个新的编程语言。他想创造一个易于学习和使用的语言，有着清楚和简洁的语法。他吸收了各种语言的灵感，包括 ABC、Modula-3 和 C。
 
 关于Python的命名：Guido van Rossum 说，他选择名称 "Python" 是因为他是 英国经典喜剧“**巨蟒剧团之飞翔的马戏团**”的粉丝，他想要一个独特且记忆的名称，"Python" 就符合这个要求。Python 的第一个版本，0.9.1 版本，在 1991 年 2 月发布。Python语言很快就流行起来，是由于其易于使用和灵活性。van Rossum 继续工作于 Python，发布新的版本并添加功能。在 1994 年，他创立了 Python 软件基金会（PSF），负责语言的开发和维护。
 
@@ -115,7 +115,7 @@ Reference:
 
 Anaconda ([https://www.anaconda.com]()) 是一款优秀的虚拟环境存放器，与之能完成类似工作的还有 miniconda ([https://docs.conda.io/projects/conda/en/stable/]() )同样由Anaconda公司开发。你也可以在安装完python([https://python.org]()) 后通过安装venv模块（pip install venv)进行设置。
 
-Visual studio code 是一款非常全面的IDE，不仅支持python，还支持例如C++等各种语言，并能够安装插件（extensions)提高生产力。要注意的是如果是windows用户，请安装System installer版本,可以获得更大的灵活性和自主权。
+Visual studio code 是一款非常全面的IDE，不仅支持python，还支持例如C++等各种语言，并能够安装插件（extensions)提高生产力。要注意的是如果是windows用户，请安装**System installer版本**,可以获得更大的灵活性和自主权。
 
 Anaconda 的下载界面如下：![1724339210752](image/Draft_v2024_1/1724339210752.png)
 
@@ -460,15 +460,14 @@ finally 块无论是否引发了异常都将执行。在这个例子中，它只
 
 #### 1.4 练习
 
-1. 根据教程使用自己的电脑分别建立两个python环境（python3.9和python3.11），并指出python3.9和python3.11的区别
-2. 以下代码的输出是什么？
+1. ##### 根据教程使用自己的电脑分别建立两个python环境（python3.9和python3.11），并指出python3.9和python3.11的区别
+2. ##### 以下代码的输出是什么？
 
    ```python
    x = 5
    y = "hello"
    print(x + y)
    ```
-3. 写一个 Python 程序，模拟简单的剪纸石头游戏。用户可以输入自己的选择（剪刀、石头或纸张），然后计算机将随机选择。程序应该具有捕捉异常的功能并打印出游戏结果。
-
+3. ##### 写一个 Python 程序，模拟简单的剪纸石头游戏。用户可以输入自己的选择（剪刀、石头或布），然后计算机将随机选择。程序应该具有捕捉异常的功能并打印出游戏结果。
 
 MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
