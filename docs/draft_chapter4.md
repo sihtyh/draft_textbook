@@ -1150,7 +1150,6 @@ sns.relplot(x="total_bill", y="tip", hue="time", size="size",
             palette=["b", "r"], sizes=(10, 100),col="time",row='sex', data=tips)
 ```
 
-
 ###### 数据单点的聚合和绘制
 
 复杂的数据集将有多个对同一个x变量的测量值。seaborn 的默认行为是，在每个x值处对多个测量值进行聚合，并在平均值周围绘制95%置信区间，即 均值 和95% 可信区间。
@@ -1401,6 +1400,8 @@ Selenium 是一个自动化测试工具，可以用于Web应用程序的自动�
 Selenium 的安装非常简单，可以通过 pip 命令进行安装：
 
 pip install selenium
+pip install lxml
+pip install webdriver-manager
 
 安装完成后，需要下载对应浏览器的驱动程序，如 ChromeDriver(Google chrome浏览器) 或 GeckoDriver（火狐浏览器） 等。
 
@@ -1693,14 +1694,13 @@ alllink.to_excel('./testallink.xlsx')
 
 #### 4.7 练习
 
-##### 练习1：
+##### 练习1：综合练习
 
 1. 导入 `pandas` 库并加载一个示例数据集（例如 `iris`）到 DataFrame 中。使用 `head()` 方法显示数据集的前几行。
 2. 使用 `assign()` 方法在 Pandas DataFrame 中创建一个新的列。
 3. 使用 `groupby()` 方法将 Pandas DataFrame 按某一列分组，并计算另一列的均值。
 
 ##### 练习2：抓取中国证监会的所有行政处罚决定，证监会网站为[ http://www.csrc.gov.cn/csrc/c101971/zfxxgk_zdgk.shtml](http://www.csrc.gov.cn/csrc/c101971/zfxxgk_zdgk.shtml)，并汇总为文件
-
 
 :::
 

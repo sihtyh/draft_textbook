@@ -218,8 +218,6 @@ my_string = "apple,banana,orange"
 print(my_string.split(","))  # 输出： ["apple", "banana", "orange"]
 ```
 
-
-
 ##### 2.2.2 高级字符串操作
 
 我们将探索 Python 中三个高级的字符串操作方法：字符串格式化和占位符、将不同数据类型转换为字符串。
@@ -398,12 +396,14 @@ def extract_content(text, left, right):
 ###包含左右特定字符串
 s = "ABXCXXD"
 result = re.findall(r'A.*C', s)
-print(result)
+print(result)   #['ABXC']
 result1 = re.findall(r'A(.*)C', s)
 result2 = re.findall(r'(?<=A)(.*)(?=C)', s)
-print(result1)
-print(result2)
-print(extract_content(s, "A", "C"))
+result3 = re.findall(r'A.*?(?=C)', s)
+print(result1)  #['BX']
+print(result2)  #['BX']
+print(result3)  #['ABX']
+print(extract_content(s, "A", "C"))  #BX
 ```
 
 一个实时测试正则表达式是否正确的网站： https://regex101.com/
@@ -461,6 +461,26 @@ with open('large_log_file.txt', 'r') as f:
 ```
 
 在本节中，我们探讨了 `re.compile` 在 Python 正则表达式中的作用。通过掌握 `re.compile`，可以优化性能，提高代码重用性，并捕获语法错误。在日志文件处理、文本处理或其他应用中，`re.compile` 都是一个不可或缺的工具。
+
+
+###### 常用正则表达式总结
+
+注意（）的用法
+
+1、匹配a开头，但开头不包含a的表达式：  (?<=a).+
+
+2、匹配a结尾，但结尾不包含a的表达式：  .+(?=a)
+
+3、匹配a和b之间的内容，不包含a和b：  (?<=a).*?(?=b)
+
+4、匹配a和b之间的内容，包含b，不包含a： a.*?(?=b)
+
+5、匹配a和b之间的内容，包含a和b： a.*?b
+
+6、限制输入英文数字下划线： ^[A-Za-z0-9-_]+$
+
+7、中英文数字下划线横线： ^[\u4e00-\u9fa5A-Za-z0-9-_]+$
+
 
 #### 2.3 字典和集合
 
@@ -742,7 +762,7 @@ print(cache.has_page('https://www.example.com'))  # 输出：True
 * **图像处理** ：使用 `opencv` 进行图像分类、对象检测和图像分割在图像数据上。
 * **音频处理** ：使用 `librosa` 进行音频特征提取、节拍跟踪和音乐信息检索在音频数据上。
 
-**使用类和对象创建和操作结构化数据****
+**使用类和对象创建和操作结构化数据**
 
 让我们创建一个简单的示例，以便演示如何使用类来创建结构化数据。假设我们想要表示一个 `Student` 实体，其中具有 `name`、`age` 和 `grades` 属性。我们可以定义一个 `Student` 类，如下所示：
 
