@@ -462,7 +462,6 @@ with open('large_log_file.txt', 'r') as f:
 
 在本节中，我们探讨了 `re.compile` 在 Python 正则表达式中的作用。通过掌握 `re.compile`，可以优化性能，提高代码重用性，并捕获语法错误。在日志文件处理、文本处理或其他应用中，`re.compile` 都是一个不可或缺的工具。
 
-
 ###### 常用正则表达式总结
 
 注意（）的用法
@@ -480,7 +479,6 @@ with open('large_log_file.txt', 'r') as f:
 6、限制输入英文数字下划线： ^[A-Za-z0-9-_]+$
 
 7、中英文数字下划线横线： ^[\u4e00-\u9fa5A-Za-z0-9-_]+$
-
 
 #### 2.3 字典和集合
 
@@ -1073,7 +1071,8 @@ for e, datadict in G.edges.items():
 * **紧邻中心度** : 测量一个节点到所有其他节点的距离： 公式：`C_ C(u) = 1 / Σ (d(u,v))`
 
   示例：
-* ```python
+  
+```python
   G  = nx.Graph()
   G.add_edges_from([(1,2), (1,3), (2,3),(3,4),(4,5),(4,6)])
   C_D  = nx.degree_centrality(G)
@@ -1086,11 +1085,11 @@ for e, datadict in G.edges.items():
   Degree Centrality:  {1: 0.4, 2: 0.4, 3: 0.6, 4: 0.6, 5: 0.2, 6: 0.2}
   Betweenness Centrality:  {1: 0.0, 2: 0.0, 3: 0.6, 4: 0.7, 5: 0.0, 6: 0.0}
   Closeness Centrality:  {1: 0.5, 2: 0.5, 3: 0.71, 4: 0.71, 5: 0.45, 6: 0.45}
-  ```
+```
 
 关于图的算法非常复杂，本节限于篇幅仅介绍最著名的 *dijkstra* 最短路径算法的应用: 最短路径，迪杰斯特拉算法(Dijkstra)是由荷兰计算机科学家狄杰斯特拉于1959 年提出的，因此又叫狄克斯特拉算法。该算法可以算出从一个顶点到其余各顶点的最短路径，解决的是有权图中最短路径问题。该算法复杂度=$n^2$. 在第6章我们会详细的介绍该经典算法。
 
-```
+```python
 G  = nx.Graph()
 G.add_edges_from([(1,2), (1,3), (2,3),(3,4),(4,5),(4,6)])
 print(nx.shortest_path(G, source=1, target=6))  ###[1, 3, 4, 6]
