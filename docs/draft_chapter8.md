@@ -1,6 +1,6 @@
 # Python 金融建模：基础与应用
 
-MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
+MIT Licensed | Copyright © 2024-present by [Yun Liao](mailto:james@x.cool)
 
 ## Python 提高篇（第5-8章）
 
@@ -18,8 +18,6 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
 
 在金融领域中，数据建模是一个关键步骤，以便对投资组合进行评估、预测和风险管理。本节我们将讨论 Python 中的金融数据建模基本概念，包括时间序列分析、预测和风险管理。
 
-**时间序列分析（Time Series Analysis）**
-
 时间序列分析是指对一系列按时间顺序排列的数据进行分析，以了解其模式、趋势和季节性变化。在 Python 中，我们可以使用以下库来实现时间序列分析：
 
 * `pandas`：提供了强大的数据处理和分析功能，包括时间序列分析。
@@ -31,8 +29,6 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
 * 季节性分析（Seasonal Decomposition）：分解时间序列为趋势、季节性和残差三部分。
 * 自相关分析（Autocorrelation Analysis）：计算时间序列的自相关系数，以了解其自身相关性。
 
-**预测（Forecasting）**
-
 预测是指基于历史数据对未来的值进行预测。在 Python 中，我们可以使用以下库来实现预测：
 
 * `statsmodels`：提供了统计模型和预测功能。
@@ -43,8 +39,7 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
 * ARIMA 模型（AutoRegressive Integrated Moving Average）：一个流行的时间序列预测模型。
 * 机器学习算法（Machine Learning Algorithms）：如决策树、随机森林、支持向量机等。
 * 神经网络算法（Neural Network Algorithms）：如递归神经网络、卷积神经网络等。
-
-**风险管理（Risk Management）**
+* 风险管理（Risk Management）**
 
 常见的风险管理技术包括：
 
@@ -391,9 +386,7 @@ res.summary()
 
 ```
 
-
 GARCH模型选择：
-
 
 ```python
 import pandas as pd
@@ -433,10 +426,9 @@ print("Best order (p, q):", best_order)
 
 ```
 
-
 GARCH模型建立
 
-```
+```python
 am = arch.arch_model(train.values,mean='AR',lags=26,vol='GARCH',p=3, q=2) 
 res = am.fit()
 res.summary()
@@ -456,14 +448,9 @@ ddf.to_excel('波动率.xlsx')
 
 需要注意的是：：大部分情况下GARCH（1，1）的结果都可以比较好的模拟一般金融市场资产的回报率和波动性。
 
-
-
-
-
-
 #### 8.3 使用蒙特卡罗模拟建模金融工具
 
-**蒙特卡罗模拟（Monte Carlo Simulation）**
+**蒙特卡罗模拟:Monte Carlo Simulation**
 
 蒙特卡罗模拟是一种统计模拟方法，用于估算复杂系统或过程的行为和结果。该方法通过随机抽样和实验来近似解决问题，通常用于处理不确定性和随机性的问题。
 
@@ -680,7 +667,7 @@ print(data_pca_df.head())
 
 ##### **8.4.2 独立成分分析（ICA）**
 
-**独立成分分析（Independent Component Analysis, ICA）**
+**独立成分分析:Independent Component Analysis, ICA**
 
 **概念：**
 独立成分分析是一种统计方法，旨在将多变量的观测数据分解为独立的潜在成分。ICA 的主要假设是，这些潜在成分之间是统计独立的，也就是说它们之间没有相关性。与PCA正好相反，ICA是将信号分离成多个成分。
@@ -805,7 +792,7 @@ plt.show()
 
 ##### 8.4.4 自编码器用于金融数据降维
 
-**自编码器（Autoencoder）**
+**自编码器:Autoencoder**
 
 **概念：**
 自编码器是一种类型的神经网络，它们的目标是学习将输入数据重新构建回原始形式。自编码器通常由两部分组成：编码器（Encoder）和解码器（Decoder）。编码器将输入数据压缩到更低维度的表示中，而解码器则尝试从该表示中重建原始数据。
@@ -992,5 +979,5 @@ plt.show()
 
 :::
 
-MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
+MIT Licensed | Copyright © 2024-present by [Yun Liao](mailto:james@x.cool)
 :::
