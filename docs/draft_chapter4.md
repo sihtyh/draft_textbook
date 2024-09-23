@@ -1692,6 +1692,14 @@ for i in range(len(alllink)):
 alllink.to_excel('./testallink.xlsx')  
 ```
 
+中国资本市场法定信息披露平台：巨潮资讯网、中证网、中国证券网、证券时报网、中国资本证券网
+https://xinpi.cs.com.cn/index.html   中证网
+http://www.cninfo.com.cn   巨潮资讯网
+https://xinpi.cnstock.com/p/jyts_gg?stockcode=000001###  中国证券网（上海证券报）
+http://www.stcn.com/xinpi/index.html  证券时报网
+http://xinpi.zqrb.cn/newsList.html  中国资本证券网（证券日报）
+
+
 #### 4.7 练习
 
 ##### 练习1：综合练习
