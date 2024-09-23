@@ -202,9 +202,9 @@ print(result.summary())
 
 指数加权移动平均模型（EWMA模型）也称指数平滑模型，其基本思想是随着时间间隔的增大，各数值的权重呈指数式衰减，即当前数据所占权重较高，更看重近期观测的数据。
 
-$ \sigma _t^2 = \lambda \sigma _{t - 1}^2 + (1 - \lambda )\varepsilon _{t - 1}^2 $
+$\sigma _t^2 = \lambda \sigma _{t - 1}^2 + (1 - \lambda )\varepsilon _{t - 1}^2$
 
-衰减因子 $ 0<\lambda<1 $
+衰减因子 $0<\lambda<1$
 
 建模示例：
 
@@ -232,11 +232,11 @@ ARMA模型将自回归（AR）和移动平均（MA）两种方法结合起来，
 
 AR部分表示时间序列的当前值与过去p个值的线性组合，可以表示为：
 
-$ {R_t} = c + {\phi _1}{R_{t - 1}} + {\phi _2}{R_{t - 2}} +  \ldots  + {\phi _p}{R_{t - p}} + {\varepsilon _t} $
+${R_t} = c + {\phi _1}{R_{t - 1}} + {\phi _2}{R_{t - 2}} +  \ldots  + {\phi _p}{R_{t - p}} + {\varepsilon _t}$
 
 MA部分表示时间序列的当前值与过去q个滞后误差的线性组合，可以表示为：
 
-$ {R_t} = \mu  + {\varepsilon _t} + {\theta _1}{\varepsilon _{t - 1}} + {\theta _2}{\varepsilon _{t - 2}} +  \ldots  + {\theta _q}{\varepsilon _{t - q}} $
+${R_t} = \mu  + {\varepsilon _t} + {\theta _1}{\varepsilon _{t - 1}} + {\theta _2}{\varepsilon _{t - 2}} +  \ldots  + {\theta _q}{\varepsilon _{t - q}}$
 
 建模实例：
 
@@ -303,21 +303,21 @@ print("Mean Absolute Error (MAE):", mae)
 
 ARCH(q) 过程可以表示为：
 
-$ \sigma _t^2 = {\alpha _0} + {\alpha _1}\varepsilon _{t - 1}^2 +  \cdots  + {\alpha_q}\varepsilon _{t - q}^2 $
+$\sigma _t^2 = {\alpha _0} + {\alpha _1}\varepsilon _{t - 1}^2 +  \cdots  + {\alpha_q}\varepsilon _{t - q}^2$
 
 ###### 模型四：GARCH(p,q) 模型
 
 Bollerslev（1986）进一步提出GARCH模型
 
-$ {r_t} = {\mu _t} + {\varepsilon _t}$
+${r_t} = {\mu _t} + {\varepsilon _t}$
 
-$ \sigma _t^2 = \gamma {V_L} + \sum\limits_{i = 1}^p {{\alpha _i}\varepsilon _{t - i}^2 + } \sum\limits_{j = 1}^q {{\beta _j}\sigma _{t - j}^2} $
+$\sigma _t^2 = \gamma {V_L} + \sum\limits_{i = 1}^p {{\alpha _i}\varepsilon _{t - i}^2 + } \sum\limits_{j = 1}^q {{\beta _j}\sigma _{t - j}^2}$
 
 其中
 
-$ \sum\nolimits_{i = 1}^p {{\alpha _i}}  + \sum\nolimits_{j = 1}^q {{\beta _j}}  + \gamma  = 1$
+$\sum\nolimits_{i = 1}^p {{\alpha _i}}  + \sum\nolimits_{j = 1}^q {{\beta _j}}  + \gamma  = 1$
 
-$ {V_L} $ 则被称为长期波动率
+${V_L}$ 则被称为长期波动率
 
 ARCH示例：
 
@@ -392,7 +392,7 @@ res.summary()
 ```
 
 
-GARCH（p,q)模型选择：
+GARCH模型选择：
 
 
 ```python
