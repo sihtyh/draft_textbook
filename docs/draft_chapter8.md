@@ -56,11 +56,9 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
 
 #### 8.2 使用Python 库构建时间序列模型
 
-statsmodel 的安装使用
+通常使用statsmodel库进行时间序列分析
 
-```
 pip install statsmodels
-```
 
 以下是一个使用statsmodels进行线性回归的例子
 
@@ -85,7 +83,7 @@ print(model.params)
 使用 Python 库（如Pandas、Statsmodels）为股票价格构建时间序列模型
 
 ```python
-mport pandas as pd
+import pandas as pd
 import statsmodels.api as sm
 from statsmodels.tsa.arima_model import ARIMA
 
@@ -186,6 +184,282 @@ print(result.summary())
 * 对分解结果进行画出使用多个子图。
 * 对数据进行 SARIMA (Seasonal AutoRegressive Integrated Moving Average) 模型拟合使用 Statsmodels 的 SARIMAX 类。
 * 打印模型拟合的汇总统计。
+
+##### 波动性/收益率建模
+
+为进一步研究金融风险，我们常用收益率来分析建模，一般采用对数的形式表达收益率：
+
+金融资产收益率具有以下几个时序特点：
+
+1. 单个资产长期日收益率之间相关性绝对值较小，趋近于0
+2. 收益率呈现非正态分布，具有明显的肥尾效应
+3. 收益率的方差（有时称为日波动性）之间相关性一般为正，即波动相关性（variance dependence)
+4. 不同资产之间的收益率具有一定相关性，而该相关性与市场波动性有关，一般与市场波动性同向变动（即与市场波动性具有正相关关系）
+
+以下为对波动性/收益率的几种常见模型：
+
+###### 模型一：波动性指数衰退模型（EWMA)
+
+指数加权移动平均模型（EWMA模型）也称指数平滑模型，其基本思想是随着时间间隔的增大，各数值的权重呈指数式衰减，即当前数据所占权重较高，更看重近期观测的数据。
+
+$ \sigma _t^2 = \lambda \sigma _{t - 1}^2 + (1 - \lambda )\varepsilon _{t - 1}^2 $
+
+衰减因子 $ 0<\lambda<1 $
+
+建模示例：
+
+```python
+import numpy as np
+import pandas as pd
+# read 000300 price
+path = r'C:000300.csv'
+hs300 = pd.read_csv(path, header=0, index_col=0)
+# daily log return
+log_return_daily = np.log(hs300 / hs300.shift(1))
+log_return_daily.dropna(inplace=True)
+# volatility prediction by EWMA with λ=0.9
+n = len(log_return_daily)
+lmd = 0.9
+vol_ewma = np.zeros(n)
+vol_ewma[0] = log_return_daily[(-n + 1):(-n + 6)].std()
+for i in range(n - 1):
+    vol_ewma[i + 1] = np.sqrt(lmd * vol_ewma[i] ** 2 + (1 - lmd) * log_return_daily.iloc[i] ** 2)
+```
+
+###### 模型二： ARMA 模型-自回归移动平均模型 (auto-regression moving average)
+
+ARMA模型将自回归（AR）和移动平均（MA）两种方法结合起来，用于描述时间序列数据的动态特性。ARMA模型的一般形式可以表示为ARMA(p, q)，其中p代表自回归阶数，q代表移动平均阶数。
+
+AR部分表示时间序列的当前值与过去p个值的线性组合，可以表示为：
+
+$ {R_t} = c + {\phi _1}{R_{t - 1}} + {\phi _2}{R_{t - 2}} +  \ldots  + {\phi _p}{R_{t - p}} + {\varepsilon _t} $
+
+MA部分表示时间序列的当前值与过去q个滞后误差的线性组合，可以表示为：
+
+$ {R_t} = \mu  + {\varepsilon _t} + {\theta _1}{\varepsilon _{t - 1}} + {\theta _2}{\varepsilon _{t - 2}} +  \ldots  + {\theta _q}{\varepsilon _{t - q}} $
+
+建模实例：
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.arima.model import ARIMA
+
+# 读取数据
+data = pd.read_csv("data.csv", parse_dates=["date"], index_col="date")
+
+# 数据可视化
+plt.plot(data)
+plt.xlabel("Date")
+plt.ylabel("Return")
+plt.title("Return Data")
+plt.show()
+
+# 构建ARMA模型
+model = ARIMA(data, order=(p, d, q))
+# 拟合模型
+model_fit = model.fit()
+# 预测
+forecast = model_fit.forecast(steps=num_steps)
+# 计算预测误差
+errors = forecast - actual_values
+# 均方误差
+mse = np.mean(errors ** 2)
+# 平均绝对误差
+mae = np.mean(np.abs(errors))
+
+# 构建ARIMA模型
+model = ARIMA(data['sales'], order=(1, 0, 1), freq='D')
+
+# 拟合模型
+model_fit = model.fit()
+
+# 预测
+forecast = model_fit.forecast(steps=10)
+
+# 要预测的步数可以根据实际情况进行调整
+
+# 原始数据中的最后10个值作为实际值
+actual_values = data['sales'].tail(10).values
+
+# 计算预测误差
+errors = forecast - actual_values
+
+# 均方误差
+mse = np.mean(errors ** 2)
+
+# 平均绝对误差
+mae = np.mean(np.abs(errors))
+
+print("Mean Squared Error (MSE):", mse)
+print("Mean Absolute Error (MAE):", mae)
+
+```
+
+###### 模型三： ARCH (q)模型
+
+在金融数据分析中，为了简化模型计算，人们一般将时间序列默认为服从正态分布假设。在实际检验中，时间序列的分布往往呈现尖峰厚尾，波动集聚等现象。这些特征是正态分布无法描述的。
+为了刻画上述特性，Engel（1982）基于条件异方差，首创了ARCH模型。
+
+ARCH(q) 过程可以表示为：
+
+$ \sigma _t^2 = {\alpha _0} + {\alpha _1}\varepsilon _{t - 1}^2 +  \cdots  + {\alpha_q}\varepsilon _{t - q}^2 $
+
+###### 模型四：GARCH(p,q) 模型
+
+Bollerslev（1986）进一步提出GARCH模型
+
+$ {r_t} = {\mu _t} + {\varepsilon _t}$
+
+$ \sigma _t^2 = \gamma {V_L} + \sum\limits_{i = 1}^p {{\alpha _i}\varepsilon _{t - i}^2 + } \sum\limits_{j = 1}^q {{\beta _j}\sigma _{t - j}^2} $
+
+其中
+
+$ \sum\nolimits_{i = 1}^p {{\alpha _i}}  + \sum\nolimits_{j = 1}^q {{\beta _j}}  + \gamma  = 1$
+
+$ {V_L} $ 则被称为长期波动率
+
+ARCH示例：
+
+```python
+# !pip install arch
+# 相关库
+from scipy import  stats
+import statsmodels.api as sm  # 统计相关的库
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import arch  # 条件异方差模型相关的库
+import seaborn as sns     #seaborn画出的图更好看，且代码更简单
+sns.set(color_codes=True) #seaborn设置背景
+
+#导入数据
+data=pd.read_excel('股价数据.xlsx')
+data.set_index('date', inplace=True) #设定日期为索引
+r2=np.log(data['close'])-np.log(data['close'].shift(1)) #计算对数收益率
+r2=r2.dropna()
+r2.head()
+# ADF检验
+t = sm.tsa.stattools.adfuller(r2) 
+print("p-value:   ",t[1])
+
+
+from statsmodels.graphics.tsaplots import plot_pacf as PACF   #偏自相关图
+
+fig = PACF(r2,lags = 30) #使用对数收益率序列
+plt.show()
+
+from scipy import  stats
+import statsmodels.api as sm  # 统计相关的库
+from statsmodels.tsa.ar_model import AutoReg
+
+####根据AIC,BIC,HQIC 判断参数
+temp = np.array(r2) # 载入收益率序列
+model =AutoReg(temp,lags=[1,6,25,26])  
+res = model.fit()  
+out = 'AIC: {0:0.3f}, HQIC: {1:0.3f}, BIC: {2:0.3f}'
+print(out.format(res.aic, res.hqic, res.bic))
+print(res.summary())
+plt.rcParams['font.sans-serif'] = ['simhei'] #字体为黑体
+plt.rcParams['axes.unicode_minus'] = False #正常显示负号 
+plt.figure(figsize=(10,4))
+plt.plot(temp,'b',label='对数收益率')
+plt.plot(res.fittedvalues, 'r',label='AR model')
+plt.legend()
+#画出残差及残差的平方
+at = r2.values[26:] -  res.fittedvalues
+at2 = np.square(at)
+plt.figure(figsize=(10,6))
+plt.subplot(211)
+plt.plot(at,label = 'at')
+plt.legend()
+plt.subplot(212)
+plt.plot(at2,label='at^2')
+plt.legend(loc=0)
+m = 25 # 我们检验25个自相关系数
+acf,q,p = sm.tsa.acf(at2,nlags=m,qstat=True)  ## 计算自相关系数 及p-value
+out = np.c_[range(1,26), acf[1:], q, p]
+output=pd.DataFrame(out, columns=['lag', "AC", "Q", "P-value"])
+output = output.set_index('lag')
+output
+#根据AIC判断阶数
+print(sm.tsa.arma_order_select_ic(at2,max_ar=10,max_ma=0,ic='aic')['aic_min_order'])
+am = arch.arch_model(r2.values,mean='AR',lags=26,vol='ARCH',p=10) 
+res = am.fit()
+res.summary()
+
+
+```
+
+
+GARCH（p,q)模型选择：
+
+
+```python
+import pandas as pd
+import numpy as np
+from arch import arch_model
+
+# 定义可能的 GARCH(p,q) 阶数范围
+p_range = range(0, 10)  # 替换为合适的范围
+q_range = range(0, 10)  # 替换为合适的范围
+
+best_aic = np.inf
+best_order = None
+best_results = None
+
+for p in p_range:
+    for q in q_range:
+        try:
+            # 拟合 GARCH(p,q) 模型
+            model = arch_model(r2, vol='Garch', p=p, q=q)
+            results = model.fit()
+  
+            # 计算 AIC 和 BIC
+            aic = results.aic
+            bic = results.bic
+  
+            # 判断是否是当前最优模型
+            if aic < best_aic:
+                best_aic = aic
+                best_order = (p, q)
+                best_results = results
+        except:
+            continue
+
+print("Best AIC:", best_aic)
+print("Best order (p, q):", best_order)
+
+
+```
+
+
+GARCH模型建立
+
+```
+am = arch.arch_model(train.values,mean='AR',lags=26,vol='GARCH',p=3, q=2) 
+res = am.fit()
+res.summary()
+res.plot()
+plt.plot(r2.values)
+
+#预测
+res.conditional_volatility[-4:]
+#参数
+res.params
+#保存
+ddf=pd.DataFrame(res.conditional_volatility)
+ddf.head(10)
+ddf.to_excel('波动率.xlsx')
+
+```
+
+需要注意的是：：大部分情况下GARCH（1，1）的结果都可以比较好的模拟一般金融市场资产的回报率和波动性。
+
+
+
+
+
 
 #### 8.3 使用蒙特卡罗模拟建模金融工具
 
