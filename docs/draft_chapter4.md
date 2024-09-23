@@ -1481,15 +1481,15 @@ print(data)
 
 ###### Selenium 中的 find_ element_by 方法有多种方式来定位网页上的元素：
 
-By.ID：根据元素的 ID 属性定位。示例：driver.find_element_by(By.ID , "myId")
-By.XPath：使用 XPath 表达式定位元素。示例：driver.find_element_by(By.XPATH, "//div[@class='myClass']")
-By.LinkText：根据链接文本定位元素（链接的可见文本）。示例：driver.find_element_by(By.LINK_TEXT, "Click me")
-By.PartialLinkText：根据链接文本的一部分定位元素。示例：driver.find_element_by(By.PARTIAL_LINK_TEXT, "me")
-By.Name：根据元素的名称属性定位。示例：driver.find_element_by(By.NAME, "myName")
-By.TagName：根据元素的标签名定位（例如 "input"、"div" 等）。示例：driver.find_element_by(By.TAG_NAME, "input")
-By.ClassName：根据元素的类名属性定位。示例：driver.find_element_by(By.CLASS_NAME, "myClass")
-By.CssSelector：使用 CSS 选择器（如 jQuery）定位元素。示例：driver.find_element_by(By.CSS_SELECTOR, "#myId > div")
-By.XPathContains：根据 XPath 表达式包含指定文本定位元素。示例：driver.find_element_by(By.XPATH_CONTAINS, "//div[contains(text(), 'myText')]")
+1. By.ID：根据元素的 ID 属性定位。示例：driver.find_element_by(By.ID , "myId")
+2. By.XPath：使用 XPath 表达式定位元素。示例：driver.find_element_by(By.XPATH, "//div[@class='myClass']")
+3. By.LinkText：根据链接文本定位元素（链接的可见文本）。示例：driver.find_element_by(By.LINK_TEXT, "Click me")
+4. By.PartialLinkText：根据链接文本的一部分定位元素。示例：driver.find_element_by(By.PARTIAL_LINK_TEXT, "me")
+5. By.Name：根据元素的名称属性定位。示例：driver.find_element_by(By.NAME, "myName")
+6. By.TagName：根据元素的标签名定位（例如 "input"、"div" 等）。示例：driver.find_element_by(By.TAG_NAME, "input")
+7. By.ClassName：根据元素的类名属性定位。示例：driver.find_element_by(By.CLASS_NAME, "myClass")
+8. By.CssSelector：使用 CSS 选择器（如 jQuery）定位元素。示例：driver.find_element_by(By.CSS_SELECTOR, "#myId > div")
+9. By.XPathContains：根据 XPath 表达式包含指定文本定位元素。示例：driver.find_element_by(By.XPATH_CONTAINS, "//div[contains(text(), 'myText')]")
 
 ##### 4.6.4 网络爬虫高级主题
 
@@ -1692,13 +1692,12 @@ for i in range(len(alllink)):
 alllink.to_excel('./testallink.xlsx')  
 ```
 
-中国资本市场法定信息披露平台：巨潮资讯网、中证网、中国证券网、证券时报网、中国资本证券网
-https://xinpi.cs.com.cn/index.html   中证网
-http://www.cninfo.com.cn   巨潮资讯网
-https://xinpi.cnstock.com/p/jyts_gg?stockcode=000001###  中国证券网（上海证券报）
-http://www.stcn.com/xinpi/index.html  证券时报网
-http://xinpi.zqrb.cn/newsList.html  中国资本证券网（证券日报）
-
+* 中国资本市场法定信息披露平台：巨潮资讯网、中证网、中国证券网、证券时报网、中国资本证券网
+* https://xinpi.cs.com.cn/index.html   中证网
+* http://www.cninfo.com.cn   巨潮资讯网
+* https://xinpi.cnstock.com/p/jyts_gg?stockcode=000001###  中国证券网（上海证券报）
+* http://www.stcn.com/xinpi/index.html  证券时报网
+* http://xinpi.zqrb.cn/newsList.html  中国资本证券网（证券日报）
 
 #### 4.7 练习
 
