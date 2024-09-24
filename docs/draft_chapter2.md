@@ -699,7 +699,7 @@ data  = {'age': [25, 30, None, 35, 40],
 df = pd.DataFrame(data)
 
 # 使用集合标识缺失值
-missing_values = set(df.columns) - set(df.dropna().columns)
+missing_values = set(df.columns) - set(df.dropna(axis=1).columns)
 print(missing_values)  # 输出：{'age'}
 
 ```
@@ -1071,7 +1071,7 @@ for e, datadict in G.edges.items():
 * **紧邻中心度** : 测量一个节点到所有其他节点的距离： 公式：`C_ C(u) = 1 / Σ (d(u,v))`
 
   示例：
-  
+
 ```python
   G  = nx.Graph()
   G.add_edges_from([(1,2), (1,3), (2,3),(3,4),(4,5),(4,6)])
@@ -1116,7 +1116,7 @@ plt.show()
 
 ###### 树结构的一些操作
 
-树的特点和
+树的特点
 
 1. **节点和边** ：树结构由节点（也称为顶点）通过边连接而成。
 2. **根节点** ：**树结构有一个单一的根节点，它是层次结构中的最顶端节点**。
@@ -1143,10 +1143,10 @@ plt.show()
 import networkx as nx
 import matplotlib.pyplot as plt
 # 创建一个空图
-G  = nx.Graph()
+G  = nx.DiGraph()
 # 添加节点和边以形成树结构
 G.add_nodes_from(["A","B","C","D","E"])
-G.add_edges_from(["A", "B"],["A", "C"],["B", "D"])
+G.add_edges_from((["A", "B"],["A", "C"],["B", "D"]))
 # 绘制图形
 nx.draw(G, with_labels=True)
 plt.show()
@@ -1158,10 +1158,10 @@ plt.show()
 import networkx as nx
 import matplotlib.pyplot as plt
 # 创建一个空图
-G  = nx.Graph()
+G  = nx.DiGraph()
 # 添加节点和边以形成树结构
 G.add_nodes_from(["A","B","C","D","E"])
-G.add_edges_from(["A", "B"],["A", "C"],["B", "D"]，["D", "E"])
+G.add_edges_from（(["A", "B"],["A", "C"],["B", "D"],["D", "E"])）
 # 绘制图形
 nx.draw(G, with_labels=True)
 plt.show()
@@ -1198,13 +1198,13 @@ import networkx as nx
 # 创建社交网络图
 G = nx.Graph()
 G.add_nodes_from(["Alice", "Bob", "Charlie", "David", "Eve"])
-G.add_edges_from([
+G.add_edges_from（([
     ("Alice", "Bob"),
     ("Alice", "Charlie"),
     ("Bob", "David"),
     ("Charlie", "David"),
     ("David", "Eve")
-])
+])）
 # 计算每个节点的度中心性
 centrality = nx.degree_centrality(G)
 # 打印前 3 名最有影响力的人物
