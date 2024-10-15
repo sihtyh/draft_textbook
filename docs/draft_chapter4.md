@@ -213,7 +213,8 @@ print(s)
 
 输出：
 
-```a
+```python
+a    1
 b    2
 c    3
 d    4
@@ -245,13 +246,6 @@ Pandas 提供了各种方法来操作数据，包括：
 * 排序：按一列或多列排序数据。
 * 分组：根据一个或多个列分组数据，并执行聚合操作。
 * 合并：将两个或更多 DataFrames 组合起来，基于共同的列。
-
-这些只是 Pandas 的基础，但是我希望这篇文章已经激发了您对使用它进行数据科学项目的兴趣。在未来的文章中，我们将更深入探索 Pandas 的特性和应用。
-
-**参考文献**
-
-* [Pandas 文档](https://pandas.pydata.org/pandas-docs/stable/)
-* [Python 数据科学手册](https://jakevdp.github.io/PythonDataScienceHandbook/)（第 2-4 章）
 
 ##### 4.2.2 分组、排序和过滤数据
 
@@ -286,13 +280,20 @@ Name: Grade, dtype: float64
 
 使用 Pandas 排序数据
 
-现在，让我们说您想对数据集排序，以便按照学生的年龄在降序排序。Pandas 提供了一个简单的方法来实现这个操作，即 sort_values 方法。
+现在，如果想对数据集排序，以便按照学生的年龄在降序排序。Pandas 提供了一个简单的方法来实现这个操作，即 sort_values 方法。
 
 以下是一个示例：
 
 ```python
 #对数据框排序，以便按照年龄在降序排序
 sorted_df  = df.sort_values(by='Age', ascending=False)
+print(sorted_df)
+```
+
+如果你想对两个列进行排序，像EXCEL一样进行第一顺序和第二顺序的排序
+
+```python
+sorted_df  = df.sort_values(by=['Age','grade'], ascending=False)
 print(sorted_df)
 ```
 
@@ -354,9 +355,34 @@ outer：外连接，取并集，只要存在就连接并显示出来，空值填
 left：左连接，左边取全部，右边取部分，空值填充不存在的值。
 right：右连接，右边取全部，左边取部分，空值填充不存在的值。
 
+`pandas.concat()`用于在 Python 中沿着轴（行或列）连接多个 DataFrame 对象
+
+**基本语法：**
+
+```python
+pd.concat(objs, axis=0, join='outer', ignore_index=False)
+###沿着行连接，要垂直堆叠 DataFrame，axis=0
+df_concat = pd.concat([df1, df2], axis=0)
+###要重置索引以创建连续的整数索引，可以使用ignore_index=True
+df_concat = pd.concat([df1, df2], axis=0, ignore_index=True)
+###沿着列连接，要水平堆叠 DataFrame，axis=1
+df_concat = pd.concat([df1, df2], axis=1)
+```
+
+这里，`objs`是要连接的 DataFrame 对象列表。`axis`指定轴进行合并（默认为 0，即沿着行）。`join`指定如何处理不匹配的索引（默认为'outer'，即包含所有唯一索引）。`ignore_index`是一个布尔值，表示是否创建新的整数索引（默认为 False，即保留原始索引）。请注意在使用 axis=1情况下，DataFrame 必须具有相同数量的行。在这种情况下，`join='outer'`（默认值）将导致 DataFrame 的垂直连接，而 `join='inner'`将仅保留两个 DataFrame 中存在的公共列。
+
+附加关键参数：
+
+你可以使用其他参数来进一步定制和操作 `pd.concat()`函数的行为。例如，`keys`参数允许您为每个 DataFrame 分配一个标签，这将创建一个多索引对象，使得在连接的 DataFrame 中区分不同的输入变得容易。
+
+```python
+df_concat = pd.concat([df1, df2], keys=['DataFrame1', 'DataFrame2'])
+```
+
+
 ##### 4.2.4 reshape 和 Pivot 表操作
 
-Pandas 提供了 melt 函数将我们的数据从宽格式转换到长格式，这在分析时更有用处。
+Pandas 提供了 melt 函数将我们的数据从**宽格式转换到长格式**，这在分析时更有用处。
 
 假设我们有一个包含学生成绩的数据集:
 
@@ -372,9 +398,41 @@ melted_df = pd.melt(df, id_vars='Student', value_name='Grade')
 print(melted_df)
 ```
 
-或者从长格式转为宽格式
+**长格式转为宽格式**
 
-以及多重索引列表转为长格式
+有多种方法可以将数据从长格式转换为宽格式。最常见的是使用 `pivot()`函数。
+
+`pivot()`函数：df_wide = df.pivot(index='index_col', columns='columns_to_be_values', values='values')：
+
+`df`是包含多列的 DataFrame。`pivot()`函数将 'index_col' 列作为行索引、'columns_to_be_values' 列作为新的列索引、'values' 列作为新的值。这样，长格式的数据就会被转换成宽格式。
+
+示例：
+
+```
+import pandas as pd
+data = {'Name': ['John', 'Anna', 'Peter', 'Linda'],
+        'City': ['London', 'Paris', 'Berlin', 'Rome'],
+        'Date': [2018, 2019, 2020, 2021],
+        'Values': [543, 762, 388, 999]}
+df = pd.DataFrame(data)
+
+```
+
+**处理多重索引列表**
+
+使用df.stack().reset_index()将多重索引列表转化为长格式列表
+
+示例：假设我们有一个包含多重索引的 DataFrame `df_multi`：
+
+```python
+data = {'London': {2018: 543, 2019: 762},
+        'Paris': {2020: 388, 2021: 999}}
+df_multi = pd.DataFrame(data)
+print(df_multi)
+df_long = df_multi.stack().reset_index(name='Values')
+print(df_long)
+```
+
 
 ##### 4.2.5 pandas数据预处理案例
 
