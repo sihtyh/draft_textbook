@@ -379,7 +379,6 @@ df_concat = pd.concat([df1, df2], axis=1)
 df_concat = pd.concat([df1, df2], keys=['DataFrame1', 'DataFrame2'])
 ```
 
-
 ##### 4.2.4 reshape 和 Pivot 表操作
 
 Pandas 提供了 melt 函数将我们的数据从**宽格式转换到长格式**，这在分析时更有用处。
@@ -432,7 +431,6 @@ print(df_multi)
 df_long = df_multi.stack().reset_index(name='Values')
 print(df_long)
 ```
-
 
 ##### 4.2.5 pandas数据预处理案例
 
@@ -1392,8 +1390,6 @@ print(' Crawling complete!')
 
 ##### 4.6.2 Requests 使用简介
 
-requests 发送 HTTP 请求和响应，requests 中的 JSON 和 XML 数据处理，Selenium 是什么？为什么需要它?
-
 Requests库提供了多种方式来发送请求，包括 GET、POST、PUT 和 DELETE 等方法。下面是一个简单的示例：
 
 ```python
@@ -1457,23 +1453,23 @@ Selenium 是一个自动化测试工具，可以用于Web应用程序的自动�
 
 Selenium 的安装非常简单，可以通过 pip 命令进行安装：
 
-pip install selenium
-pip install lxml
-pip install webdriver-manager
+1. pip install selenium
+2. pip install lxml
+3. pip install webdriver-manager
 
 安装完成后，需要下载对应浏览器的驱动程序，如 ChromeDriver(Google chrome浏览器) 或 GeckoDriver（火狐浏览器） 等。
 
 **安装 GeckoDriver**
 
-第一种方法
+第一种方法:  
 
-* 运行以下命令：pip install geckodriver
-  如果你使用的是 Python 3.6 或更高版本，可以使用最新的 GeckoDriver 版本，运行：pip install geckodriver --upgrade
-  alternative installation method（仅限 Windows）。
+运行以下命令：pip install geckodriver
 
-第二种方法
+如果你使用的是 Python 3.6 或更高版本，可以使用最新的 GeckoDriver 版本，运行：pip install geckodriver --upgrade
 
-* 从 [https://github.com/mozilla/geckodriver/releases](https://github.com/mozilla/geckodriver/releases) 下载 GeckoDriver 可执行文件。将可执行文件移到一个包含在系统 PATH 环境变量中的目录中。重新启动命令提示符或终端窗口
+第二种方法（Windows)
+
+从 [https://github.com/mozilla/geckodriver/releases](https://github.com/mozilla/geckodriver/releases) 下载 GeckoDriver 可执行文件。将可执行文件移到一个包含在系统 PATH 环境变量中的目录中。重新启动命令提示符或终端窗口. 如果出现路径错误的提示，请使用第二种方法并将解压的执行文件加入到电脑的环境变量中，建议直接将它放到python3的目录中，例如安装的Anaconda3,可直接放到X:/Anaconda3/Scripts目录下
 
 **验证 GeckoDriver 安装**
 
@@ -1482,9 +1478,7 @@ from selenium import webdriver
 browser= webdriver.Firefox()
 ```
 
-以上程序如果能够打开一个新的firefox浏览器窗口，则说明已经安装成功。
-
-然后，可以使用 Selenium 来创建一个浏览器实例：
+以上程序如果能够打开一个新的firefox浏览器窗口，则说明已经安装成功。然后，可以使用 Selenium 来创建一个浏览器实例：
 
 ```python
 from selenium import webdriver
@@ -1507,7 +1501,7 @@ for item in result:
     print(item.get_text())
 ```
 
-Selenium 基本操作：导航、交互和爬虫
+###### Selenium 基本操作：导航、交互和爬虫
 
 Selenium 可以与 requests 库组合使用，用于爬虫和数据采集等。以下是一个简单的示例：
 
@@ -1551,7 +1545,7 @@ print(data)
 
 ##### 4.6.4 网络爬虫高级主题
 
-1. "爬取动态网站：策略和技术"
+1. 爬取动态网站：策略和技术
 2. 存储和处理大规模数据"
 3. "处理 CAPTCHAs、cookies 和其他障碍"
 
@@ -1571,7 +1565,7 @@ cookie 持久化：使用 session.persistent_cookies 属性来持久化 cookie A
 
 代理：使用 requests.Session() 构造函数中的 proxies 参数来设置代理。
 用户代理：使用 request.headers 构造函数中的 headers 参数来设置一个自定义的用户代理字符串。
-速率限制：使用 库，例如 ratelimit 或 tqdm，来实现速率限制。
+速率限制：使用 库，例如 ratelimit 或 tqdm库，来实现速率限制。
 错误处理：捕捉并处理特定的异常，例如 ConnectionError，以提高鲁棒性。
 一些流行的库可以帮助你解决这些问题：
 
@@ -1582,35 +1576,13 @@ ratelimit：用于速率限制。
 cookiejar：用于 cookie 管理。
 记住，总是检查特定的库或服务的文档，因为它们可能有自己的要求和最佳实践来处理这些问题。
 
-爬取动态网站：策略和技术
-
-作为计算机和软件开发的教授，我已经见过许多学生对爬取动态网站感到困难。这些网站使用各种技术来防止bot从抓取他们的内容，使得开发者很难提取所需的数据。在本文中，我们将探讨爬取动态网站的策略和技术。
-
-为什么爬取动态网站如此困难
-
-动态网站是设计以频繁更改内容的，这使得bot很难从抓取他们想要的信息，而不完全渲染网页。此外，许多网站使用 CAPTCHAs、cookies 和其他反抓取措施来防止自动请求。
-
 爬取动态网站的策略
 
-Selenium 集成：最有效的策略之一是将 Selenium WebDriver集成到爬取过程中。这允许你完全渲染网页，包括 JavaScript-基于交互，并提取所需的数据。
-Headless 浏览：另一个方法是使用 headless 浏览，这使得你可以在不显示浏览器的情况下运行浏览器。这可以帮助减少渲染网页时的计算开销。
-异步爬取：异步爬取涉及发送多个请求并处理响应异步。这可以巨大的提高爬取过程的效率。
-技术来处理动态网站
+Selenium 集成：最有效的策略之一是将 Selenium WebDriver集成到爬取过程中。这允许你完全渲染网页，包括 JavaScript-基于交互，并提取所需的数据。Headless 浏览：另一个方法是使用 headless 浏览，这使得你可以在不显示浏览器的情况下运行浏览器。这可以帮助减少渲染网页时的计算开销。异步爬取：异步爬取涉及发送多个请求并处理响应异步。这可以巨大的提高爬取过程的效率。
 
-CAPTCHA 处理：要绕过 CAPTCHAs，可以使用像 Selenium 或 PyCaptcha 等库来程序化解决它们。
-Cookie 管理：要处理 cookies，可以使用 Requests- CookieJar 等库来管理cookies。
-用户代理跳转：通过用户代理可以帮助隐瞒你的 bot 的身份避免网站被你 block。
-请求延迟：实施请求延迟可以防止对网站的请求过度。
-错误处理：正确地处理错误非常重要，以免止你的 bot 在爬取过程中出现意外错误。
-爬取动态网站的最佳实践
+使用一些技术来处理动态网站
 
-尊重网站政策：总是尊重网站服务条款和使用政策。
-避免对网站的请求过度：在爬取过程中要注意网站的容量并避免对网站的请求过度。
-正确地处理错误：实施强大的错误处理以免止你的 bot 在爬取过程中出现意外错误。
-监控网站变化：监控网站结构或反抓取措施的变化，并根据变化适应爬取策略。
-结论
-
-爬取动态网站可以很难，但是通过使用正确的策略和技术，你可以成功地提取所需的数据。记住尊重网站政策，避免对网站的请求过度，正确地处理错误，并监控网站变化。这将使你拥有一个强大且高效的爬取程序。
+CAPTCHA 处理：要绕过 CAPTCHAs，可以使用像 Selenium 或 PyCaptcha 等库来程序化解决它们。Cookie 管理：要处理 cookies，可以使用 Requests- CookieJar 等库来管理cookies。用户代理跳转：通过用户代理可以帮助隐瞒你的 bot 的身份避免网站被你 block。请求延迟：实施请求延迟可以防止对网站的请求过度。错误处理：正确地处理错误非常重要，以免你的 bot 在爬取过程中出现意外错误。。
 
 参考
 
@@ -1753,7 +1725,7 @@ alllink.to_excel('./testallink.xlsx')
 * 中国资本市场法定信息披露平台：巨潮资讯网、中证网、中国证券网、证券时报网、中国资本证券网
 * https://xinpi.cs.com.cn/index.html   中证网
 * http://www.cninfo.com.cn   巨潮资讯网
-* https://xinpi.cnstock.com/p/jyts_gg?stockcode=000001###  中国证券网（上海证券报）
+* https://xinpi.cnstock.com/p/jyts_gg?stockcode=000001 中国证券网（上海证券报）
 * http://www.stcn.com/xinpi/index.html  证券时报网
 * http://xinpi.zqrb.cn/newsList.html  中国资本证券网（证券日报）
 
