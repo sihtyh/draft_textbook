@@ -1087,7 +1087,7 @@ ax.plot(x,y,color = 'r')
 不平均分布视图
 
 ```python
-mport numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 x = np.linspace(0,2*np.pi,200)
 fig = plt.figure(figsize=(12,9))
@@ -1407,7 +1407,7 @@ else:
 
 这个示例发送了一个 GET 请求到指定的 URL，获取响应，并打印出响应状态码和内容。如果响应状态码为 200，則打印出 JSON 对象；否则，打印出错误信息。处理响应(response)，例如response.text: 获取响应的文本内容；response.json(): 尝试将响应转换为 JSON 对象；response.xml(): 尝试将响应转换为 XML 对象。
 
-```
+```python
 import requests
 # 设置 POST 请求的 URL 和 数据
 url  =  "https://example.com/submit_data"
@@ -1425,7 +1425,7 @@ else:
 
 安装和导入beautifulsoup4使用以下语句即可：
 
-```
+```python
 #pip install beautifulsoup4
 from bs4 import BeautifulSoup
 soup = BeautifulSoup(open("xxx.html","html.parser"）
@@ -1461,7 +1461,7 @@ Selenium 的安装非常简单，可以通过 pip 命令进行安装：
 
 **安装 GeckoDriver**
 
-第一种方法:  
+第一种方法:
 
 运行以下命令：pip install geckodriver
 
@@ -1550,42 +1550,31 @@ print(data)
 3. "处理 CAPTCHAs、cookies 和其他障碍"
 
 requests 是一个流行的 Python 库，用于发送 HTTP 请求，但是它可能会遇到 CAPTCHAs、cookies 和其他障碍。下面是如何处理这些问题：
-
 CAPTCHAs
-
 Selenium 集成：使用 Selenium WebDriver 渲染网页并与 CAPTCHA 相互作用。这需要设置一个 Selenium 实例，并使用它发送请求。
 API-基于解决方案：一些服务提供 API-基于的 CAPTCHA 解决方案，例如 Google 的 Recaptcha 或 2Captcha。你可以将这些 API 集成到你的 requests 工作流程中。
 手动输入：如果你处理的是简单的 CAPTCHAs，你可能需要手动输入解决方案。
 Cookies
-
 设置 cookie：使用 requests.Session() 构造函数中的 cookies 参数来设置一个 cookie 会话。
 获取 cookie：使用 request.cookies 属性来获取服务器返回的 cookie。
 cookie 持久化：使用 session.persistent_cookies 属性来持久化 cookie Across 请求。
 其他障碍
-
 代理：使用 requests.Session() 构造函数中的 proxies 参数来设置代理。
 用户代理：使用 request.headers 构造函数中的 headers 参数来设置一个自定义的用户代理字符串。
 速率限制：使用 库，例如 ratelimit 或 tqdm库，来实现速率限制。
 错误处理：捕捉并处理特定的异常，例如 ConnectionError，以提高鲁棒性。
 一些流行的库可以帮助你解决这些问题：
-
 selenium：用于渲染网页并与 CAPTCHA 相互作用。
 pysocks：用于代理支持。
 tqdm：用于速率限制和进度跟踪。
 ratelimit：用于速率限制。
 cookiejar：用于 cookie 管理。
-记住，总是检查特定的库或服务的文档，因为它们可能有自己的要求和最佳实践来处理这些问题。
-
 爬取动态网站的策略
-
 Selenium 集成：最有效的策略之一是将 Selenium WebDriver集成到爬取过程中。这允许你完全渲染网页，包括 JavaScript-基于交互，并提取所需的数据。Headless 浏览：另一个方法是使用 headless 浏览，这使得你可以在不显示浏览器的情况下运行浏览器。这可以帮助减少渲染网页时的计算开销。异步爬取：异步爬取涉及发送多个请求并处理响应异步。这可以巨大的提高爬取过程的效率。
-
 使用一些技术来处理动态网站
-
 CAPTCHA 处理：要绕过 CAPTCHAs，可以使用像 Selenium 或 PyCaptcha 等库来程序化解决它们。Cookie 管理：要处理 cookies，可以使用 Requests- CookieJar 等库来管理cookies。用户代理跳转：通过用户代理可以帮助隐瞒你的 bot 的身份避免网站被你 block。请求延迟：实施请求延迟可以防止对网站的请求过度。错误处理：正确地处理错误非常重要，以免你的 bot 在爬取过程中出现意外错误。。
 
 参考
-
 Selenium WebDriver 从[https://www.selenium.dev/](https://www.selenium.dev/)获取。
 PyCaptcha 从[https://github.com/ChristophS/pycaptcha](https://github.com/ChristophS/pycaptcha)获取。
 Requests- CookieJar 从[https://pypi.org/project/requests-cookiejar](https://pypi.org/project/requests-cookiejar)获取。
@@ -1618,13 +1607,9 @@ driver.quit()
 ```
 
 ##### 4.6.5 信息抓取实例
-
-以中国金融监督管理总局（[CBIRC](https://www.cbirc.gov.cn/cn/view/pages/ItemList.html?itemPId=923&itemId=4113&itemUrl=ItemListRightList.html&itemName=%E6%80%BB%E5%B1%80%E6%9C%BA%E5%85%B3&itemsubPId=931&itemsubPName=%E8%A1%8C%E6%94%BF%E5%A4%84%E7%BD%9A)）的行政惩罚公示为例进行抓取
-
-项目简介：国家金融监管总局的惩罚信息包含三级总局机关、监管局本级、监管分局本级，抓取所有相关违规信息进一步对其中银行的相关违规信息进行梳理
-
+以中国金融监督管理总局（[CBIRC](https://www.cbirc.gov.cn/cn/view/pages/ItemList.html?itemPId=923&itemId=4113&itemUrl=ItemListRightList.html&itemName=%E6%80%BB%E5%B1%80%E6%9C%BA%E5%85%B3&itemsubPId=931&itemsubPName=%E8%A1%8C%E6%94%BF%E5%A4%84%E7%BD%9A)）的行政惩罚公示为例进行抓取。
+项目简介：国家金融监管总局的惩罚信息包含三级总局机关、监管局本级、监管分局本级，抓取所有相关违规信息进一步对其中银行的相关违规信息进行梳理。
 以下程序将该任务分成两个步骤：第一步获得惩罚信息的docid，第二步是根据docid抓取页面并获得信息。
-
 ```python
 import re
 from selenium import webdriver
