@@ -1456,6 +1456,7 @@ Selenium 的安装非常简单，可以通过 pip 命令进行安装：
 1. pip install selenium
 2. pip install lxml
 3. pip install webdriver-manager
+4. pip install --upgrade selenium (当安装得selenium和其他库有冲突得情况可以试下更新selenium)
 
 安装完成后，需要下载对应浏览器的驱动程序，如 ChromeDriver(Google chrome浏览器) 或 GeckoDriver（火狐浏览器） 等。
 
@@ -1469,7 +1470,7 @@ Selenium 的安装非常简单，可以通过 pip 命令进行安装：
 
 第二种方法（Windows)
 
-从 [https://github.com/mozilla/geckodriver/releases](https://github.com/mozilla/geckodriver/releases) 下载 GeckoDriver 可执行文件。将可执行文件移到一个包含在系统 PATH 环境变量中的目录中。重新启动命令提示符或终端窗口. 如果出现路径错误的提示，请使用第二种方法并将解压的执行文件加入到电脑的环境变量中，建议直接将它放到python3的目录中，例如安装的Anaconda3,可直接放到X:/Anaconda3/Scripts目录下
+从 [https://github.com/mozilla/geckodriver/releases](https://github.com/mozilla/geckodriver/releases) 下载 GeckoDriver 可执行文件。将可执行文件移到一个包含在系统 PATH 环境变量中的目录中。重新启动命令提示符或终端窗口. 如果出现路径错误的提示，请使用第二种方法并将解压的执行文件加入到电脑的环境变量中，建议直接将它放到python3的目录中，例如安装的Anaconda3,可直接放到X:/Anaconda3/Scripts目录下.
 
 **验证 GeckoDriver 安装**
 
@@ -1500,6 +1501,33 @@ result = driver.find_elements_by_class_name("result")
 for item in result:
     print(item.get_text())
 ```
+
+安装chromedriver相对要复杂一些
+
+1、确认浏览器的版本
+
+在浏览器的地址栏，输入**chrome**://version/，回车后即可查看到对应版本
+
+2、根据chrome的版本找到对应的chromedriver版本 [https://googlechromelabs.github.io/chrome-for-testing/#stable ]()
+
+3、解压chromedriver文件，放置chrome的安装目录下
+
+4、windows环境下点击我的电脑/此电脑>>右键点击属性>>点击高级系统设置>>环境变量>>系统变量。点击系统变量中的path，点击新增，并将chrome的安装目复制填入后，点击确定。
+
+验证chromedriver是否安装成功：
+
+```python
+from selenium import webdriver 
+chromedriver_path = r"C:\Users\AppData\Local\Google\Chrome\Application\chromedriver.exe"
+driver = webdriver.Chrome(chromedriver_path) 
+# 登录百度
+def main():
+    driver.get("https://baidu.com/") 
+if __name__ == '__main__':
+    main()
+```
+
+
 
 ###### Selenium 基本操作：导航、交互和爬虫
 
@@ -1579,6 +1607,7 @@ Selenium WebDriver 从[https://www.selenium.dev/](https://www.selenium.dev/)获�
 PyCaptcha 从[https://github.com/ChristophS/pycaptcha](https://github.com/ChristophS/pycaptcha)获取。
 Requests- CookieJar 从[https://pypi.org/project/requests-cookiejar](https://pypi.org/project/requests-cookiejar)获取。
 
+
 ```python
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -1607,9 +1636,11 @@ driver.quit()
 ```
 
 ##### 4.6.5 信息抓取实例
+
 以中国金融监督管理总局（[CBIRC](https://www.cbirc.gov.cn/cn/view/pages/ItemList.html?itemPId=923&itemId=4113&itemUrl=ItemListRightList.html&itemName=%E6%80%BB%E5%B1%80%E6%9C%BA%E5%85%B3&itemsubPId=931&itemsubPName=%E8%A1%8C%E6%94%BF%E5%A4%84%E7%BD%9A)）的行政惩罚公示为例进行抓取。
 项目简介：国家金融监管总局的惩罚信息包含三级总局机关、监管局本级、监管分局本级，抓取所有相关违规信息进一步对其中银行的相关违规信息进行梳理。
 以下程序将该任务分成两个步骤：第一步获得惩罚信息的docid，第二步是根据docid抓取页面并获得信息。
+
 ```python
 import re
 from selenium import webdriver
@@ -1659,10 +1690,10 @@ urlist1 = pd.DataFrame(docu2)
 urlist1.to_excel('../data/3.xlsx')
 ```
 
-第二步根据docid，抓取页面相关内容
+第二步根据docid，抓取页面相关内容(该部分代码采用chrome，也可改为firefox,请同学们自行思考完成)
 
 ```python
-rom selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 import pandas as pd
@@ -1690,7 +1721,7 @@ alllink.to_csv('./allink.csv')
 service = ChromeService(ChromeDriverManager().install()) # 自动下载当前浏览器对应驱动
 driver = webdriver.Chrome(service=service)
 # 如果手动下载 webdriver 驱动
-# driver = webdriver.Chrome(executable_path=r'd:\path\to\webdriver\
+# driver = webdriver.Chrome(executable_path=r'd:\path\to\webdriver\)
 for i in range(len(alllink)):
     urlread = alllink.loc[i,'doclink']
     driver.get(urlread)
