@@ -59,20 +59,19 @@ pip install statsmodels
 
 ```python
 import pandas as pd
+import numpy as np
 import statsmodels.api as sm
-# 加载数据集
-data = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv')
-# 创建一个包含截距项的线性回归模型
-X = data[['size', 'smoking']]
-# 仅选择总账单金额大于10的行
-X = X[X['total_bill'] > 10]
-y = X['total_bill']
-# 将独立变量添加截距项
+# 生成模拟数据
+nobs = 100
+X = np.random.random((nobs, 2))
 X = sm.add_constant(X)
+beta = [1, .1, .5]
+e = np.random.random(nobs)
+y = np.dot(X, beta) + e
 # 适合模型
 model = sm.OLS(y, X).fit()
 # 打印模型系数
-print(model.params)
+print(model.summary（)）
 ```
 
 使用 Python 库（如Pandas、Statsmodels）为股票价格构建时间序列模型
@@ -82,8 +81,8 @@ import pandas as pd
 import statsmodels.api as sm
 from statsmodels.tsa.arima_model import ARIMA
 
-# 从 Yahoo Finance 或 Quandl 加载股票价格数据
-stock_data = pd.read_csv('AAPL.csv', index_col='Date', parse_dates=['Date'])
+# 从CSMAR 加载股票价格数据
+stock_data = pd.read_excel('HS300.xlsx', index_col='Date', parse_dates=['Date'])
 
 # 将数据转换为 Pandas Series，用于更方便的操作
 series = stock_data['Close']
@@ -91,11 +90,11 @@ series = stock_data['Close']
 # 使用 Matplotlib 可视化时间序列数据
 import matplotlib.pyplot as plt
 plt.plot(series)
-plt.title('Apple Stock Price')
+plt.title('HS300 INDEX')
 plt.show()
 
 # 对数据拟合 ARIMA 模型（例如 ARIMA(1,1,1））
-model = sm.tsa.statespace.SARIMAX(endog=series, order=(1, 1, 1), seasonal_order=(0, 0, 0))
+model = sm.tsa.statespace.SARIMAX(endog=series, order=(1, 1, 1), seasonal_order=(1,1,0,12))
 
 # 估计模型参数
 results = model.fit()
@@ -165,7 +164,7 @@ plt.show()
 # 对数据进行 SARIMA 模型拟合
 from statsmodels.tsa.statespace import SARIMAX
 
-model = SARIMAX(data, order=(1, 1, 1), seasonal_order=(1, 1, 12))
+model = SARIMAX(data, order=(1, 1, 1), seasonal_order=(1,1,0,12))
 result = model.fit()
 print(result.summary())
 
@@ -241,7 +240,7 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
 
 # 读取数据
-data = pd.read_csv("data.csv", parse_dates=["date"], index_col="date")
+data = pd.read_excel("hs300.xlsx", parse_dates=["date"], index_col="date")
 
 # 数据可视化
 plt.plot(data)
@@ -288,7 +287,6 @@ mae = np.mean(np.abs(errors))
 
 print("Mean Squared Error (MSE):", mse)
 print("Mean Absolute Error (MAE):", mae)
-
 ```
 
 ###### 模型三： ARCH (q)模型
@@ -329,7 +327,7 @@ import seaborn as sns     #seaborn画出的图更好看，且代码更简单
 sns.set(color_codes=True) #seaborn设置背景
 
 #导入数据
-data=pd.read_excel('股价数据.xlsx')
+data=pd.read_excel('hs300.xlsx')
 data.set_index('date', inplace=True) #设定日期为索引
 r2=np.log(data['close'])-np.log(data['close'].shift(1)) #计算对数收益率
 r2=r2.dropna()

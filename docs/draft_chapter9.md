@@ -6,7 +6,7 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
 
 第9章：统计学习基础
 
-第10章：集成算法导论
+第10章：统计学习中的集成算法
 
 第11章：深度学习基础
 
@@ -26,7 +26,7 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
 
 分类
 
-分类是机器学习中的基本问题，目标是预测对象所属的类别。它涉及在标记过的数据上训练模型，每个示例都与特定的类别标签相关。然后，可以使用训练好的模型对新的、未见过的示例进行分类。根据分类类型的数量来区分，可分为二元分类和多元分类，二元分类的目标是将实例分配到两个类别中（例如，垃圾邮件vs非垃圾邮件）。多元分类的目标是将实例分配到三个或更多类别中（例如，图像分类、识别）
+分类是机器学习中的基本问题，目标是预测对象所属的类别。它涉及在标记过的数据上训练模型，每个示例都与特定的类别标签相关。然后，可以使用训练好的模型对新的、未见过的示例进行分类。根据分类类型的数量来区分，可分为二元分类和多元分类，二元分类的目标是将实例分配到两个类别中（例如，垃圾邮件vs非垃圾邮件）。多元分类的目标是将实例分配到三个或更多类别中（例如，图像分类、识别）.
 
 回归
 
@@ -81,7 +81,13 @@ cost function:      ![1724468915523](image/draft_chapter9_12/1724468915523.png)
 以下是使用正则化的一些例子
 
 ```python
-from sklearn.linear_model import Lasso
+import numpy as np
+import pandas as pd
+from sklearn import datasets
+from sklearn.linear_model import Ridge, Lasso, ElasticNet
+from sklearn.metrics import mean_squared_error, r2_score
+X, y = datasets.load_diabetes(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 # 创建一个 Lasso 回归对象，alpha=0.1，L1 正则化（Lasso）
 lasso = Lasso(alpha=0.1)
 # 将模型拟合到数据
@@ -91,6 +97,87 @@ from sklearn.linear_model import Ridge，L2 正则化（Ridge）
 ridge = Ridge(alpha=0.1)
 # 将模型拟合到数据
 ridge.fit(X_train, y_train)
+```
+
+##### 示例1：一个完整的使用L1和L2正则化的例子
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn import datasets
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.linear_model import Ridge, Lasso, ElasticNet
+from sklearn.metrics import mean_squared_error, r2_score
+X, y = datasets.load_diabetes(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# 定义岭回归模型
+ridge = Ridge()
+
+# 定义LASSO回归模型
+lasso = Lasso()
+
+# 定义弹性网络模型
+elastic_net = ElasticNet()
+
+# 设置参数网格
+param_grid_ridge = {'alpha': np.logspace(-4, 4, 50)}
+param_grid_lasso = {'alpha': np.logspace(-4, 4, 50)}
+param_grid_elastic_net = {'alpha': np.logspace(-4, 4, 50), 'l1_ratio': np.linspace(0, 1, 10)}
+
+# 创建GridSearchCV对象
+grid_ridge = GridSearchCV(ridge, param_grid_ridge, cv=5, scoring='neg_mean_squared_error')
+grid_lasso = GridSearchCV(lasso, param_grid_lasso, cv=5, scoring='neg_mean_squared_error')
+grid_elastic_net = GridSearchCV(elastic_net, param_grid_elastic_net, cv=5, scoring='neg_mean_squared_error')
+
+# 训练模型
+grid_ridge.fit(X_train, y_train)
+grid_lasso.fit(X_train, y_train)
+grid_elastic_net.fit(X_train, y_train)
+
+# 获取最优参数
+best_params_ridge = grid_ridge.best_params_
+best_params_lasso = grid_lasso.best_params_
+best_params_elastic_net = grid_elastic_net.best_params_
+
+# 输出最优参数
+print("Best parameters for Ridge:", best_params_ridge)
+print("Best parameters for LASSO:", best_params_lasso)
+print("Best parameters for Elastic Net:", best_params_elastic_net)
+
+# 使用最佳模型进行预测
+best_model_ridge = grid_ridge.best_estimator_
+best_model_lasso = grid_lasso.best_estimator_
+best_model_elastic_net = grid_elastic_net.best_estimator_
+
+y_pred_ridge = best_model_ridge.predict(X_test)
+y_pred_lasso = best_model_lasso.predict(X_test)
+y_pred_elastic_net = best_model_elastic_net.predict(X_test)
+
+
+
+# 评估模型
+mse_ridge = mean_squared_error(y_test, y_pred_ridge)
+r2_ridge = r2_score(y_test, y_pred_ridge)
+
+mse_lasso = mean_squared_error(y_test, y_pred_lasso)
+r2_lasso = r2_score(y_test, y_pred_lasso)
+
+mse_elastic_net = mean_squared_error(y_test, y_pred_elastic_net)
+r2_elastic_net = r2_score(y_test, y_pred_elastic_net)
+
+# 输出结果
+print("Ridge Regression:")
+print(f"Mean Squared Error: {mse_ridge:.2f}")
+print(f"R^2 Score: {r2_ridge:.2f}")
+
+print("\nLASSO Regression:")
+print(f"Mean Squared Error: {mse_lasso:.2f}")
+print(f"R^2 Score: {r2_lasso:.2f}")
+
+print("\nElastic Net Regression:")
+print(f"Mean Squared Error: {mse_elastic_net:.2f}")
+print(f"R^2 Score: {r2_elastic_net:.2f}")
 ```
 
 pytorch库使用dropout的例子
@@ -143,7 +230,7 @@ Logistic Regression 是一种用于预测分类独立变量结果的回归分析
 
 Logistic Regression 模型可以用以下数学表达式表示：
 
-$ p(y=1|x) = \frac{1}{1 + e^{-(w^Tx + b)}} $
+$p(y=1|x) = \frac{1}{1 + e^{-(w^Tx + b)}}$
 
 其中：
 
@@ -189,7 +276,7 @@ predictions = log_reg.predict(new_X)
 * 神经网络是一个正向求解的过程，通过不断反向迭代来接近理想解的过程。
 * 基本要素：输入层；隐含层；输出层；激活函数；损失函数；梯度下降算法；反向传播
 
-示例：神经网络回归
+##### 示例2：神经网络回归
 
 ```python
 from sklearn.neural_network import MLPRegressor
@@ -343,7 +430,9 @@ MAPE = metrics.mean_absolute_percentage_error(y_test, y_pred)
 4、支持向量机（Support Vector Machine）
 
 算法思想：寻找一个可以最大限度地将两个样本的标注进行区分的超平面，为防止维度爆炸，先在低维空间计算，再进行扩维：
-核函数：支持向量机算法的参数，包括：线性核函数；多项式核函数——参数d确定扩充维度；高斯径向基RBF核函数——扩充到无限维，但可能过拟合
+核函数：支持向量机算法的参数，包括：线性核函数；多项式核函数——参数d确定扩充维度；高斯径向基RBF核函数——扩充到无限维，但可能过拟合.
+
+##### 示例3：分类任务
 
 让我们考虑一个简单的示例，即根据iris 花的萼长、宽、花瓣长和宽来进行分类，使用 UC Irvine 机器学习库中的著名 Iris 数据集。
 
@@ -537,7 +626,7 @@ pd.Series([1,None,4,5,20]).interpolate()
 * 递归特征消除法算法—RFE—resave feature elimination）：包裹思想的含义，是我们假设所有的特征是个集合X，最佳的特征组合是它的一个子集。我们的任务就是要找到这个子集。递归特征消除（RFE）的主要思想是反复的构建模型（如SVR回归模型）然后选出最好的的特征（可以根据系数来选），把选出来的特征选择出来，然后在剩余的特征上重复这个过程，直到所有特征都遍历了。这个过程中特征被消除的次序就是特征的排序。因此，这是一种寻找最优特征子集的贪心算法。
 * 正则化——系数反应特征重要程度：对标注建立回归模型，得到特征与标注的权重系数；对这些系数进行正则化，反应特征的分量和重要程度。
 
-以下以实例说明这些方法：
+##### 示例4：特征选择
 
 ```python
 from sklearn.svm import SVR 
@@ -585,7 +674,7 @@ sfm.fit_transform(X,Y)
 4. 独热编码（one hot)
 5. 正规化（规范化）——可以反应特征对于标注的影响程度占比
 
-以下为这些特征变换的基本实例：
+##### 示例5：特征变换的基本实例
 
 ```python
 #等频分箱
@@ -723,7 +812,7 @@ clf.predict([[0.8,1]])
 
 使用统计学习方法中经常需要进行参数搜索，以下就几种最常用的超参数调整给出实例：
 
-###### **示例1：网格搜索与交叉验证**
+##### 示例6：网格搜索与交叉验证
 
 ```python
 from sklearn.model_selection import GridSearchCV
@@ -754,7 +843,7 @@ print("最佳评分:", grid_search.best_score_)
 
 ```
 
-###### **示例2：随机搜索与交叉验证**
+##### 示例7：随机搜索与交叉验证
 
 ```python
 from sklearn.model_selection import RandomizedSearchCV
@@ -785,7 +874,7 @@ print("最佳评分:", random_search.best_score_)
 
 ```
 
-###### **示例3：贝叶斯优化与Hyperopt**
+##### 示例8：贝叶斯优化与Hyperopt
 
 ```python
 from sklearn.ensemble import RandomForestClassifier
@@ -817,7 +906,7 @@ print("最佳参数:", best)
 
 ```
 
-##### 9.5.3 一个使用多种机器学习方法的示例
+##### 9.5.3 使用多种机器学习方法的示例
 
 ```python
 import warnings
@@ -930,7 +1019,6 @@ D) 增加模型的复杂性
 ##### 实践题
 
 **根据讲义中使用多种机器学习方法的示例，对一个分类或回归任务（二选一）进行多种统计学习方法的比较**
-
 
 :::
 

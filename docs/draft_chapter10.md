@@ -6,7 +6,7 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
 
 第9章：统计学习基础
 
-第10章：集成算法
+第10章：统计学习中的集成算法
 
 第11章：深度学习基础
 
@@ -626,7 +626,6 @@ print(f'Accuracy: {accuracy:.4f}')
 
 在软投票中，每个基模型预测一个概率分布在所有类别上，最后的预测结果由加权平均这些分布确定。
 
-
 ```python
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -668,7 +667,6 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f'Accuracy: {accuracy:.4f}')
 
 ```
-
 
 ##### 加权投票（weighted-voting）
 
@@ -724,10 +722,6 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f'Accuracy: {accuracy:.4f}')
 
 ```
-
-
-
-
 
 #### 10.6 集成算法实际应用案例
 
@@ -930,8 +924,7 @@ y_true, y_pred = y_test, clf.predict(X_test)
 print("Accuracy : %.4g" % metrics.accuracy_score(y_true, y_pred))
 ```
 
-#### 10.7 课后练习
-
+#### 10.7 练习
 
 **练习1：硬投票**
 实现一个使用以下模型的硬投票集成：
@@ -942,16 +935,12 @@ print("Accuracy : %.4g" % metrics.accuracy_score(y_true, y_pred))
 * 多层感知机（MLP）分类器
   使用鸢尾花数据集，并评估每个模型单独和集成的性能
 
-
-
 **练习2：堆叠（stacking）**
 实现一个使用以下模型的堆叠集成：
 
 * 逻辑回归（基模型）
 * 决策树分类器（元模型）
   使用波士顿房价数据集或其他数据集，并评估堆叠集成的性能
-
-
 
 :::
 
