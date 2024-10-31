@@ -21,7 +21,7 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao](mailto:james@x.cool)
 时间序列分析是指对一系列按时间顺序排列的数据进行分析，以了解其模式、趋势和季节性变化。在 Python 中，我们可以使用以下库来实现时间序列分析：
 
 * `pandas`：提供了强大的数据处理和分析功能，包括时间序列分析。
-* `statsmodels`：提供了统计模型和时间序列分析功能。
+* `statsmodels`：提供了统计模型和时间序列分析功能。官网（[statsmodels](https://www.statsmodels.org/stable/index.html)）
 
 常见的时间序列分析技术包括：
 
@@ -39,7 +39,7 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao](mailto:james@x.cool)
 * ARIMA 模型（AutoRegressive Integrated Moving Average）：一个流行的时间序列预测模型。
 * 机器学习算法（Machine Learning Algorithms）：如决策树、随机森林、支持向量机等。
 * 神经网络算法（Neural Network Algorithms）：如递归神经网络、卷积神经网络等。
-* 风险管理（Risk Management）**
+* 风险管理（Risk Management）: 关注波动性或其他风险测度的预测模型
 
 常见的风险管理技术包括：
 
