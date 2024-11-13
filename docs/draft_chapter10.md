@@ -69,7 +69,7 @@ Bagging，也称为 Bootstrap Aggregating，是机器学习中的一种流行的
 * 每个模型都在一个稍有不同的一些数据上进行训练，这增加了集成的多样性，并提高了鲁棒性对异常值和噪音数据。
 * 最终的预测结果是通过组合每个模型的预测结果来实现的，减少了单个模型错误的影响。
 
-![1731384154897](image/draft_chapter10/1731384154897.png)
+![1731470188306](image/draft_chapter10/1731470188306.png)
 
 **应用：**
 
@@ -107,53 +107,58 @@ IMDB 数据集，包含 50,000 条电影评论，其中 25,000 条为正面评�
 
 ```python
 import pandas as pd
+import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import BaggingClassifier
 from sklearn.metrics import accuracy_score
-
 # 加载 IMDB 数据集
-train_data = pd.read_csv('imdb_train.csv')
-test_data = pd.read_csv('imdb_test.csv')
-
-# 定义 Bagging 函数
-def bagging(X, y, num_models=10):
+df =   pd.read_csv(r'D:\yunpan\工作-课程教学\2024-2025-1-数据风控与信用评分\imdb_datasets.csv')
+X = df['review']
+y = df['sentiment'].apply(lambda x:1 if x=='positive' else 0)
+# 将文本数据转换为特征向量
+Vectorizer = TfidfVectorizer()
+X_vec = Vectorizer.fit_transform(X)
+# 拆分数据集为训练和测试子集
+X_train, X_test, y_train, y_test = train_test_split(X_vec, y, test_size=0.2, random_state=42)
+# 将训练集初始化索引
+y_train = y_train.reset_index()
+X_train.index = y_train.index
+# 定义 bagging 函数
+def bagging(base_estimator, n_estimators, X_train, y_train):
     models = []
-    for i in range(num_models):
-        # 引导采样（bootstrapping)
-        idx = np.random.choice(len(X), size=len(X), replace=True)
-        X_boot = X[idx]
-        y_boot = y[idx]
-
-        # 在引导数据上训练模型
-        vectorizer = TfidfVectorizer()
-        X_boot_vec = vectorizer.fit_transform(X_boot)
-        model = LogisticRegression()
-        model.fit(X_boot_vec, y_boot)
+    for _ in range(n_estimators):
+        # 从原始训练数据集中进行有放回随机采样，创建一个新的训练子集（bootstrap sample),这里分成10份  
+        bootstrap_indices = np.random.choice(np.array(y_train.index), size=int(y_train.shape[0]/10), replace=True)
+        X_boot = X_train[bootstrap_indices]
+        y_boot = y_train.loc[np.array(bootstrap_indices),'sentiment']
+        # 训练模型
+        model = base_estimator.fit(X_boot, y_boot)
         models.append(model)
-
     return models
-
-# 训练 Bagging 模型
-X_train = train_data['review']
-y_train = train_data['sentiment']
-models = bagging(X_train, y_train)
-
-# 对测试数据进行预测
+# 使用 bagging 函数训练多个 LogisticRegression 分类器
+models = bagging(LogisticRegression(), n_estimators=10, X_train=X_train, y_train=y_train)
+# 对测试数据进行预测并聚合结果
 test_preds = []
 for model in models:
-    X_test_vec = vectorizer.transform(test_data['review'])
-    pred = model.predict(X_test_vec)
-    test_preds.append(pred)
-
-# 使用投票聚合预测结果
+    pred = model.predict(X_test)
+    test_preds.append(pred)   
 agg_pred = np.array(test_preds).mean(axis=0) > 0.5
-
 # 评估性能
-accuracy = accuracy_score(test_data['sentiment'], agg_pred)
+accuracy = accuracy_score(y_test, agg_pred)
 print(f'Bagging 准确率：{accuracy:.3f}')
-
+# 输出 Bagging 准确率：0.834
 ```
+
+该代码片段使用了 BaggingClassifier（一种集成学习技术）来训练一个分类器，用于对IMDB电影评论的情感进行分类。首先，代码导入必要的库和数据集：Pandas、NumPy、Scikit-learn 中的 TfidfVectorizer（用于将文本数据转换为数字特征）、LogisticRegression（线性模型，作为分类器）、train_test_split（用于将数据集拆分为训练和测试子集）以及 accuracy_score（用于评估模型的准确率）。然后，它加载了 IMDB 电影评论数据集并定义了特征变量 X（电影评论文本）和目标变量 y（情感标签）。接下来，代码定义了一个名为 bagging 的函数，该函数使用自引导聚合来训练多个模型。在每次迭代中，函数执行以下操作：
+
+1. 从原始训练数据集中进行有放回随机采样，创建一个新的训练子集（bootstrap sample）。
+2. 使用 TfidfVectorizer 将文本数据转换为特征向量。
+3. 在引导样本上训练 LogisticRegression 分类器。
+4. 重复步骤 1-3，直到创建了所需数量的模型（默认情况下为 10 个）。
+
+然后，代码对数据集进行拆分并使用 bagging 函数训练多个 LogisticRegression 分类器。在测试集上进行预测时，每个模型的预测被存储为一系列预测值。最后，这些预测被聚合起来，如果平均预测大于 0.5，则将其四舍五入到类别 1（正面评价）；否则，将其四舍五入到类别 0（负面评价）。然后，代码计算并打印分类器的准确率。这种 BaggingClassifier 方法是一种集成学习技术，可以提高模型的稳健性和预测精度，但训练和预测过程需要更多时间和资源。
 
 ##### Bagging 用于价格预测实例
 
@@ -161,7 +166,7 @@ print(f'Bagging 准确率：{accuracy:.3f}')
 根据股票的历史数据预测其未来的价格。
 
 **数据集：**
-我们将使用一份苹果公司（AAPL）的日股价数据，包含 1000 天的历史价格数据，每个样本具有以下特征：
+我们将使用一份沪深300（000300）的日股价数据，包含 1000 天的历史价格数据，每个样本具有以下特征：
 
 * 日期
 * 开盘价格
@@ -171,7 +176,7 @@ print(f'Bagging 准确率：{accuracy:.3f}')
 
 **Bagging 算法：**
 
-1. **引导采样：** 从训练数据集中随机抽取一个子集，以置换方式。例如，我们可以从整个数据集中抽取 800 天的数据。
+1. **引导采样：** 从训练数据集中随机抽取一个子集，以置换方例如，我们可以从整个数据集中抽取 800 天的数据。
 2. **模型训练：** 在抽取的数据子集中训练一个价格预测模型。我们可以使用简单的线性回归模型或更复杂的模型，如 LSTM。
 3. **重复：** 重复步骤 1-2 多次（例如 10 次）。每次，我们抽取新的数据子集，并训练新的模型实例。
 4. **预测：** 使用每个训练好的模型对未来的股价进行预测。
@@ -181,50 +186,81 @@ print(f'Bagging 准确率：{accuracy:.3f}')
 
 ```python
 import pandas as pd
-from sklearn.ensemble import BaggingRegressor
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-
+import numpy as np
+from sklearn import tree
+from sklearn.metrics import mean_squared_error,mean_absolute_error
+import os
+os.chdir(r'D:\yunpan\工作-课程教学\2024-2025-1-数据风控与信用评分')
 # 加载股票价格数据
-stock_data  = pd.read_csv('aapl_stock_prices.csv')
-
+df = pd.read_excel(r'D:\yunpan\工作-课程教学\2024-2025-1-数据风控与信用评分\hs300.xlsx')
+# 确保日期列被正确解析为datetime对象
+df['date'] = pd.to_datetime(df['date'])
+#减少变量
+df_ret_volume = df[['date','ret','tradevolume']]
+#生成每一天前n天的数据（ret/volume)
+def ndays_data(n,df):
+    d = list(range(1,n+1))
+    dfmerge = df.copy()
+    for i in d:
+        dfshift = df.shift(periods=i, freq=None, axis=0, fill_value=None)
+        dfshift = dfshift.drop('date',axis=1)
+        suffix = "-"+str(i)+"day"
+        dfshift.columns = [col for col in dfshift.columns + suffix]
+        dfmerge = pd.concat([dfmerge,dfshift],axis=1)
+    dfmerge.dropna(axis=0, how='any',inplace=True)
+    return dfmerge
+dfmerged = ndays_data(n=10,df=df_ret_volume).reset_index(drop=True)
+dfmerged.head()
+# 准备数据用于 Bagging
+X  = dfmerged.drop(['date', 'ret'], axis=1)
+y  = dfmerged['ret']
 # 定义 Bagging 函数
-def bagging(X, y, num_models=10):
+def bagging(X, y, num_models,max_depth):
     models  =  []
     for i in range(num_models):
          # 引导采样
-        idx  = np.random.choice(len(X), size=len(X), replace=True)
+        idx  = np.random.choice(len(X), size=len(X)//4, replace=True)
         X_boot  = X.iloc[idx]
         y_boot  = y.iloc[idx]
-
          # 训练模型在引导数据上
-        model  = LinearRegression()
+        model  = tree.DecisionTreeRegressor(max_depth=max_depth)
         model.fit(X_boot, y_boot)
-
         models.append(model)
-
     return models
-
-# 准备数据用于 Bagging
-X  = stock_data.drop(['Date', 'Close Price'], axis=1)
-y  = stock_data['Close Price']
-
 # 训练 Bagging 模型
-models  = bagging(X, y, num_models=10)
-
-# 使用每个模型预测未来的股价
-future_prices  =  []
-for model in models:
-    future_price  = model.predict(X)
-    future_prices.append(future_price)
-
-# 使用平均值聚合预测结果
-agg_future_price  = np.mean(future_prices, axis=0)
-
-# 使用均方误差评估性能
-mse  = mean_squared_error(y, agg_future_price)
-print(f'MSE: {mse:.2f}')
-
+models1  = bagging(X, y, num_models=10,max_depth=10)
+models2  = bagging(X, y, num_models=10,max_depth=4)
+# 使用每个模型预测未来的股价,使用平均值聚合预测结果
+future_ret1  =  []
+for model in models1:
+    future_ret  = model.predict(X)
+    future_ret1.append(future_ret)
+agg_future_ret1  = np.mean(future_ret1, axis=0)
+future_ret2  =  []
+for model in models2:
+    future_ret  = model.predict(X)
+    future_ret2.append(future_ret)
+agg_future_ret2  = np.mean(future_ret2, axis=0)
+# 使用均方误差/平均绝对误差评估性能
+mse1  = mean_squared_error(y, agg_future_ret1)
+print(f'MSE: {mse1:.2f}')
+mse2  = mean_squared_error(y, agg_future_ret2)
+print(f'MSE: {mse2:.2f}')
+mae1  = mean_absolute_error(y, agg_future_ret1)
+print(f'MAE: {mae1:.2f}')
+mae2  = mean_absolute_error(y, agg_future_ret2)
+print(f'MAE: {mae2:.2f}')
+#可视化
+import matplotlib.pyplot as plt
+plt.figure()
+plt.scatter(dfmerged['date'], y, s=5, edgecolor="black", c="darkorange", label="data")
+plt.plot(dfmerged['date'], agg_future_ret1, color="cornflowerblue", label="max_depth=10", linewidth=2)
+plt.plot(dfmerged['date'], agg_future_ret2, color="yellowgreen", label="max_depth=4", linewidth=2)
+plt.xlabel("Date")
+plt.ylabel("return")
+plt.title("Decision Tree Regression with Bagging")
+plt.legend()
+plt.show()
 ```
 
 #### 10.3 Boosting 算法
@@ -323,9 +359,6 @@ Stacking 是一种流行的 ensemble 学习技术，它通过组合多个基模�
 3. **梯度Boosting Stacking** ：元模型使用梯度boosting 来组合基模型预测。
 
 ![1731384315604](image/draft_chapter10/1731384315604.png)
-
-
-
 
 1. **图像分类** ：Stacking 可以用于组合多个图像分类模型的预测，提高准确性和robustness。
 2. **自然语言处理（NLP）** ：Stacking 可以应用于 NLP 任务，如情感分析、实体识别或语言建模。
