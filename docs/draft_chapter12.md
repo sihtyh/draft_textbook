@@ -177,7 +177,322 @@ clf.fit(X, y)
 print(clf.predict(vectorizer.transform(["我讨厌我的旧iphone 手机。"])))  # 输出： [-1] (负面情感)
 ```
 
-#### 12.3 大语言模型（LLMS）简介
+#### 12.3 自然语言处理实战：新闻文本分类
+
+本节内容来自天池[零基础入门NLP - 新闻文本分类](https://tianchi.aliyun.com/competition/entrance/531810/introduction)
+
+赛题以匿名处理后的新闻数据为赛题数据，数据集报名后可见并可下载。赛题数据为新闻文本，并按照字符级别进行匿名处理。整合划分出14个候选分类类别：财经、彩票、房产、股票、家居、教育、科技、社会、时尚、时政、体育、星座、游戏、娱乐的文本数据。赛题数据由以下几个部分构成：训练集20w条样本，测试集A包括5w条样本，测试集B包括5w条样本。为了预防选手人工标注测试集的情况，我们将比赛数据的文本按照字符级别进行了匿名处理。
+
+处理后的赛题训练数据如下：
+
+| label | text                                                                                                                                 |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| 6     | 57 44 66 56 2 3 3 37 5 41 9 57 44 47 45 33 13 63 58 31 17 47 0 1 1 69 26 60 62 15 21 12 442 36 46 65 37 5 41 32 67 6 59 47 0 1 1 68 |
+
+**评测指标：评价标准为类别f1_score的均值，选手提交结果与实际测试集的类别进行对比，结果越大越好。**
+
+##### 初步分析
+
+赛题思路分析： **赛题本质是一个文本分类问题，需要根据每句的字符进行分类** 。但赛题**给出的数据是匿名化的，不能直接使用中文分词**等操作，这个是赛题的难点。因此本次赛题的难点是需要对匿名字符进行建模，进而完成文本分类的过程 。由于文本数据是一种典型的非结构化数据，因此可能涉及到特征提取和分类模型两个部分。
+
+* 解题思路1：TF-IDF + 机器学习分类器：直接使用TF-IDF对文本提取特征，并使用分类器进行分类。在分类器的选择上，可以使用SVM、LR、或者XGBoost。
+* 解题思路2：WordVec + 深度学习分类器：：WordVec是进阶款的词向量，并通过构建深度学习分类完成分类。深度学习分类的网络结构可以选择TextCNN、TextRNN或者BiLSTM。
+* 解题思路3：Bert词向量：Bert是高配款的词向量，具有强大的建模学习能力。
+
+步骤1：数据读取和基础数据分析
+
+```python
+import pandas as pd
+train_df = pd.read_csv('./data/train_set.csv', sep='\t', nrows=100)
+print(train_df.head())
+
+```
+
+赛题数据中，新闻文本的长度是多少？赛题数据的类别分布是怎么样的，哪些类别比较多？赛题数据中，字符分布是怎么样的
+
+```
+train_df['text_len'] = train_df['text'].apply(lambda x: len(x.split(' ')))
+print(train_df['text_len'].describe())
+##对数据集的类别进行分布统计，具体统计每类新闻的样本个数
+train_df['label'].value_counts().plot(kind='bar')
+plt.title('News class count')
+plt.xlabel("category")
+plt.savefig('./category.png')
+plt.show()
+##字符分布统计
+all_lines = ' '.join(list(train_df['text']))
+word_count = Counter(all_lines.split(" "))
+word_count = sorted(word_count.items(), key=lambda d:d[1], reverse = True)
+print("len(word_count): ", len(word_count)) # 6869
+print("word_count[0]: ", word_count[0]) # ('3750', 7482224)
+print("word_count[-1]: ", word_count[-1]) # ('3133', 1)
+```
+
+从统计结果中可以看出，在训练集中总共包括6869个字，其中编号3750的字出现的次数最多，编号3133的字出现的次数最少。这里还可以根据字在每个句子的出现情况，反推出标点符号。下面代码统计了不同字符在句子中出现的次数，其中字符3750，字符900和字符648在20w新闻的覆盖率接近99%，很有可能是标点符号。
+
+ 通过上述分析我们可以得出以下结论：
+
+    赛题中每个新闻包含的字符个数平均为1000个，还有一些新闻字符较长；
+    赛题中新闻类别分布不均匀，科技类新闻样本量接近4w，星座类新闻样本量不到1k；
+    赛题总共包括7000-8000个字符；
+    每个新闻平均字符个数较多，可能需要截断；
+    由于类别不均衡，会严重影响模型的精度；
+
+##### 文本表示方法
+
+###### One-hot
+
+  这里的One-hot与数据挖掘任务中的操作是一致的，即将每一个单词使用一个离散的向量表示。具体将每个字/词编码一个索引，然后根据索引进行赋值 。One-hot表示方法的例子如下：
+
+例如“我 爱 北 京 天 安 门”；“我 喜 欢 上 海”两句话可以用11维度稀疏向量表示
+
+```python
+我：[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+爱：[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+...
+海：[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+
+```
+
+###### Bag of Words(词袋)
+
+```python
+句子1：我 爱 北 京 天 安 门
+转换为 [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0]
+句子2：我 喜 欢 上 海
+转换为 [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
+
+```
+
+（词袋表示），也称为 **Count Vectors** ，每个文档的字/词可以使用其出现次数来进行表示。在**sklearn**中可以直接CountVectorizer来实现这一步骤：
+
+```python
+from sklearn.feature_extraction.text import CountVectorizer
+corpus = [
+    'This is the first document.',
+    'This document is the second document.',
+    'And this is the third one.',
+    'Is this the first document?',
+]
+vectorizer = CountVectorizer()
+vectorizer.fit_transform(corpus).toarray()
+```
+
+###### N-gram（颗粒度）
+
+与Count Vectors类似，不过加入了相邻单词组合成为新的单词，并进行计数
+
+句子1：我爱 爱北 北京 京天 天安 安门  ； 句子2：我喜 喜欢 欢上 上海
+
+###### TF-IDF
+
+TF-IDF 分数由两部分组成： **第一部分是词语频率（Term Frequency），第二部分是逆文档频率（Inverse Document Frequency）** 。其中计算语料库中文档总数除以含有该词语的文档数量，然后再取对数就是逆文档频率。TF(t)= 该词语在当前文档出现的次数 / 当前文档中词语的总数；IDF(t)= log（文档总数 / 出现该词语的文档总数）
+
+##### 一些基础的方法
+
+```
+###Count Vectors + RidgeClassifier
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import RidgeClassifier
+from sklearn.metrics import f1_score
+train_df = pd.read_csv('./data/train_set.csv', sep='\t', nrows=15000)
+
+vectorizer = CountVectorizer(max_features=3000)
+train_test = vectorizer.fit_transform(train_df['text'])
+
+clf = RidgeClassifier()
+clf.fit(train_test[:10000], train_df['label'].values[:10000])
+
+val_pred = clf.predict(train_test[10000:])
+print(f1_score(train_df['label'].values[10000:], val_pred, average='macro'))
+# 0.74
+###TF-IDF + RidgeClassifier
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import RidgeClassifier
+from sklearn.metrics import f1_score
+train_df = pd.read_csv('./data/train_set.csv', sep='\t', nrows=15000)
+tfidf = TfidfVectorizer(ngram_range=(1, 3), max_features=3000)
+train_test = tfidf.fit_transform(train_df['text'])
+
+clf = RidgeClassifier()
+clf.fit(train_test[:10000], train_df['label'].values[:10000])
+
+val_pred = clf.predict(train_test[10000:])
+print(f1_score(train_df['label'].values[10000:], val_pred, average='macro'))
+# 0.87
+```
+
+##### 一些进阶的方法
+
+###### Word2vec 词向量分析
+
+word2vec模型背后的基本思想是对出现在上下文环境里的词进行预测。对于每一条输入文本，我们选取一个上下文窗口和一个中心词，并基于这个中心词去预测窗口里其他词出现的概率。因此，word2vec模型可以方便地从新增语料中学习到新增词的向量表达，是一种高效的在线学习算法（online learning）。=word2vec的主要思路：通过单词和上下文彼此预测，对应的两个算法分别为：skip-grams(SG)：预测上下文；Continuous Bag of Words (CBOW)：预测目标单词. 其中涉及的算法包含霍夫曼树等。
+
+示例：使用gensim库训练word2vec，分成几步，首先是生成Corpus(语料库)
+
+```
+from collections import defaultdict
+from gensim import corpora
+
+documents = [
+    "Human machine interface for lab abc computer applications",
+    "A survey of user opinion of computer system response time",
+    "The EPS user interface management system",
+    "System and human system engineering testing of EPS",
+    "Relation of user perceived response time to error measurement",
+    "The generation of random binary unordered trees",
+    "The intersection graph of paths in trees",
+    "Graph minors IV Widths of trees and well quasi ordering",
+    "Graph minors A survey",
+]
+
+# remove common words and tokenize
+stoplist = set('for a of the and to in'.split())
+texts = [
+    [word for word in document.lower().split() if word not in stoplist]
+    for document in documents
+]
+
+# remove words that appear only once
+frequency = defaultdict(int)
+for text in texts:
+    for token in text:
+        frequency[token] += 1
+
+texts = [
+    [token for token in text if frequency[token] > 1]
+    for text in texts
+]
+
+dictionary = corpora.Dictionary(texts)
+corpus = [dictionary.doc2bow(text) for text in texts]
+```
+
+第二步是将样本转化为向量形式：
+
+```python
+from gensim import models
+tfidf = models.TfidfModel(corpus)
+corpus_tfidf = tfidf[corpus]
+for doc in corpus_tfidf:
+    print(doc)
+
+```
+
+第三步是根据向量形式进行分类：
+
+这一步可以使用各种机器学习方法，例如集成学习/深度学习方法等
+
+###### TD-IDF +XGB
+
+第一步为TD/IDF 分词
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score
+from xgboost import XGBClassifier
+from tqdm import tqdm
+####读取数据
+train = pd.read_csv('./datalab/72510/train_set.csv', sep='\t')
+test = pd.read_csv('./datalab/72510/test_a.csv', sep='\t')
+all_text = pd.concat([train_text, test_text])
+####TD/IDF分词
+word_vectorizer = TfidfVectorizer(
+    sublinear_tf=True,
+    strip_accents='unicode',
+    analyzer='word',
+    token_pattern=r'\w{1,}',
+    stop_words='english',
+    ngram_range=(1, 1),
+    max_features=10000)
+
+word_vectorizer.fit(all_text)
+train_word_features = word_vectorizer.transform(train_text)
+test_word_features = word_vectorizer.transform(test_text)
+train_word_features
+```
+
+第二步为XGB训练
+
+```
+class XGB():  
+    def __init__(self, X_df, y_df):
+        self.X = X_df
+        self.y = y_df   
+    def train(self, param):
+        self.model = XGBClassifier(**param)
+        self.model.fit(self.X, self.y, eval_set=[(self.X, self.y)],
+                       eval_metric=['mlogloss'],
+                       early_stopping_rounds=10,  # 连续N次分值不再优化则提前停止
+                       verbose=False
+                      )  
+        ### 模型评估
+        train_result, train_proba = self.model.predict(self.X), self.model.predict_proba(self.X)
+        train_acc = accuracy_score(self.y, train_result)
+        train_auc = f1_score(self.y, train_proba, average='macro')  
+        print("Train acc: %.2f%% Train auc: %.2f" % (train_acc*100.0, train_auc))
+  
+    def test(self, X_test, y_test):
+        result, proba = self.model.predict(X_test), self.model.predict_proba(X_test)
+        acc = accuracy_score(y_test, result)
+        f1 = f1_score(y_test, proba, average='macro')
+        print("acc: %.2f%% F1_score: %.2f%%" % (acc*100.0, f1))  
+    def grid(self, param_grid):
+        self.param_grid = param_grid
+        xgb_model = XGBClassifier(nthread=20)
+        clf = GridSearchCV(xgb_model, self.param_grid, scoring='f1_macro', cv=2, verbose=1)
+        clf.fit(self.X, self.y)
+        print("Best score: %f using parms: %s" % (clf.best_score_, clf.best_params_))
+        return clf.best_params_, clf.best_score_  
+```
+
+第三步为训练和最佳参数获得
+
+```
+x_train_, x_valid_, y_train_, y_valid_ = train_test_split(X_train[:, :300], y_train, test_size=0.2, shuffle=True, random_state=42)
+X_test = test_word_features[:,:300]
+param = {'learning_rate': 0.05,         #  (xgb’s “eta”)
+              'objective': 'multi:softmax', 
+              'n_jobs': 16,
+              'n_estimators': 300,           # 树的个数
+              'max_depth': 10,         
+              'gamma': 0.5,                  # 惩罚项中叶子结点个数前的参数，Increasing this value will make model more conservative.
+              'reg_alpha': 0,               # L1 regularization term on weights.Increasing this value will make model more conservative.
+              'reg_lambda': 2,              # L2 regularization term on weights.Increasing this value will make model more conservative.
+              'min_child_weight' : 1,      # 叶子节点最小权重
+              'subsample':0.8,             # 随机选择80%样本建立决策树
+              'random_state':1           # 随机数
+             }
+model = XGB(x_train_, y_train_)
+model.train(param)
+model.test(x_valid_, y_valid_)
+```
+
+第四步为提交结果
+
+```
+final_model = XGB(X_train, y_train)
+final_model.train(param)
+
+submission = pd.read_csv('./datalab/72510/test_a_sample_submit.csv')
+preds = final_model.model.predict(X_test)
+submission['label'] = preds
+submission.to_csv('./xgb_submission.csv', index=False)
+```
+
+###### 其他集成方法
+
+可参考 https://github.com/Goldgaruda/Tianchi-NLP-News-Text-Classification-Rank-5-solution
+
+
+#### 12.4 大语言模型（LLMS）简介
 
 大语言模型是人工智能（AI）系统，它们被训练在大量文本数据上，它们旨在生成上下文化的词语和短语表示以生成类似人类的语言输出。这些模型已经革命化了自然语言处理（NLP）的领域，并且在聊天机器人、语言翻译、文本摘要和内容生成等领域具有广泛的应用。
 
@@ -260,7 +575,7 @@ print(clf.predict(vectorizer.transform(["我讨厌我的旧iphone 手机。"])))
 
 [llama 3 模型下载 ](https://www.ollama.com/library/llama3)
 
-#### 12.4 大语言模型知识库用于检索增强生成 （**Retrieval-Augmented Generation**：RAG）
+#### 12.5 大语言模型知识库用于检索增强生成 （**Retrieval-Augmented Generation**：RAG）
 
 尽管大型语言模型（LLMs）有能力生成有意义且语法正确的文本，但它们面临的一个挑战是幻觉。在LLMs中，幻觉指的是它们倾向于自信地生成错误答案，制造出看似令人信服的虚假信息。这个问题自LLMs问世以来就普遍存在，并经常导致不准确和事实错误的输出。为了解决幻觉问题，事实检查至关重要。一般用于为LLMs原型设计进行事实检查的方法包括三种方法：
 
