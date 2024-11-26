@@ -142,7 +142,7 @@ Rm = 0.08  # 市场回报率
 beta = 1.2  # beta系数
 
 # 定义资产协方差矩阵
-cov_matrix = np.array([[0.001, 0.005], [0.005, 0.01]])
+cov_matrix = np.array([[0.0225, 0.005], [0.005, 0.04]])
 
 # 定义个别资产的预期回报率和标准差
 E_R_asset1 = 0.06
@@ -640,7 +640,6 @@ print(predict_probs)
 
 #### 13.6 练习
 
-
 ##### **练习 1：预期亏损（ES）计算**
 
 实现一个 Python 函数来计算投资组合的预期亏损（ES），使用历史数据。
@@ -653,9 +652,7 @@ print(predict_probs)
 
 提示：使用 `numpy` 和 `pandas` 库来实现计算。
 
-
 ##### **练习 2：风险中性估值**
-
 
 实现一个 Python 函数来计算选择权的风险中性估值，使用 Black-Scholes 模型。
 
@@ -668,9 +665,7 @@ print(predict_probs)
 * 输出：
   * `option_value`：选择权的风险中性估值
 
-
 ##### **练习 3：信用风险模型**
-
 
 实现一个 Python 函数来计算贷款的违约概率（PD）和违约损失（LGD）。
 
@@ -684,7 +679,6 @@ print(predict_probs)
   * `lgd`：违约损失（LGD）
 
 提示：使用 `numpy` 和 `pandas` 库来实现计算。
-
 
 :::
 
