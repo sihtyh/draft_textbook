@@ -6,7 +6,7 @@ MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
 
 第13章：金融风险建模和分析
 
-第14章：效率分析模型（DEA-马尔奎斯特模型，SFA模型）
+第14章：效率分析模型（DEA-Malquist模型，SFA模型）
 
 第15章：信用评级和信用评分模型
 
@@ -689,13 +689,14 @@ print(f'Predicted Credit Score: {predicted_credit_score:.3f}')
 
 以下练习2选1（团队任务）
 
-##### 贷款违约预测综合练习
+##### 金融风险预测学习赛
 
-https://aistudio.baidu.com/competition/detail/803/0/my-team
+https://tianchi.aliyun.com/competition/entrance/531830
 
-飞桨学习赛：个贷违约预测
+赛题简介
 
-https://aistudio.baidu.com/overview
+如果你是银行的业务员，如何判断一笔贷款的风险呢？如果让AI来判断，该怎么做呢？
+赛题以金融风控中的个人信贷为背景，要求选手根据贷款申请人的数据信息预测其是否有违约的可能，以此判断是否通过此项贷款，这是一个典型的分类问题。通过这道赛题来引导大家了解金融风控中的一些业务背景，解决实际问题，帮助竞赛新人进行自我练习、自我提高。通过对本方案的完整学习，可以帮助同学们掌握数据预测基本技能。
 
 ##### 时序预测学习赛
 
