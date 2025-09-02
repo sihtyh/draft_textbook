@@ -1,6 +1,7 @@
-# 课程网址：https://draft-textbook.readthedocs.io/zh-cn/latest/
 
 ## 课程简介（Course Summary and Syllabus)
+
+## 课程网址：https://draft-textbook.readthedocs.io/zh-cn/latest/
 
 本讲义涵盖了三门课程，包括数据风控与信用评分；数据挖掘与资产评估；Python金融建模
 
@@ -77,4 +78,5 @@
 个人项目和作业：50分
 
 团队项目：35分
+
 
