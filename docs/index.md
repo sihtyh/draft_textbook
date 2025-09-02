@@ -1,3 +1,5 @@
+# 课程网址：https://draft-textbook.readthedocs.io/zh-cn/latest/
+
 ## 课程简介（Course Summary and Syllabus)
 
 本讲义涵盖了三门课程，包括数据风控与信用评分；数据挖掘与资产评估；Python金融建模
@@ -31,7 +33,7 @@
 
 #### 讲义使用
 
-python金融建模基础与应用的1、2、3、4、9、10、13、15章
+1、2、3、4、9、10、13、15章
 
 ### 数据挖掘与资产评估
 
@@ -48,7 +50,7 @@ python金融建模基础与应用的1、2、3、4、9、10、13、15章
 
 #### 讲义使用
 
-python金融建模基础与应用的1、2、3、4、8、9、12、16章
+1、2、3、4、8、9、12、16章
 
 ## 推荐的其他读物和资源
 
@@ -60,16 +62,19 @@ python金融建模基础与应用的1、2、3、4、8、9、12、16章
 
 [Scikit-learn 官网 ](https://scikit-learn.org/stable/)
 
+[Matplotlib 官网](https://matplotlib.org/)
+
 [Regular expressions 101](https://regex101.com/)
 
 [OLLAMA](https://ollama.com/)
 
 ## 课程评分
 
-2024年8月22日第一次修订：
+2025年9月2日第二次修订：
 
 考勤：15分
 
 个人项目和作业：50分
 
 团队项目：35分
+
