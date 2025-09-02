@@ -1,6 +1,6 @@
 # Python 金融建模：基础与应用
 
-MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
+MIT Licensed | Copyright © 2024-present by [Yun Liao](mailto:james@x.cool)
 
 ## Python 基础篇（第1-4章）
 
@@ -36,7 +36,7 @@ Python 的主要更新：版本 1.5 和 2.0：Python 自从 1991 年的首次发
 
 Python版本的更新与PEPs（Python Enhancement Proposals）的创建有巨大关系。1996 年，Python 的创始人 Guido van Rossum 发现了需要一个正式的过程来讨论和实现对语言的变化。这最终Python Enhancement Proposal (PEP) 过程。第一个 PEP：PEP 1，于 1996 年 9 月份由 Guido van Rossum 创建。它规范了 PEP 过程的目的是什么和范围是 什么，它旨在为 提供一个正式的机制来提议和讨论对 Python 语言的变化。
 
-PEPs 的关键特征： 1. 结构化过程：PEPs遵循一个结构化的过程，包括： * 提议提交 * 初始审核和反馈 * 修订提议和讨论 * 最终决策和实施 2. 正式提议：PEPs要求正式的提议，包含： * 对所提议变化的明确描述 * 所提议变化的缘故 * 考虑了的alternative * 对现有代码和用户的影响 3. 社区参与：PEPs鼓励社区参与，通过： * 在邮件列表（例如 python-dev）上进行公共讨论 * 由 Python 开发者和用户投票。PEPs 的重要性： 1. 标准化：PEPs 帮助标准化对 Python 语言的变化提议和实施过程。 2. 透明度：PEPs 增加了决策过程的透明度，允许开发者和用户理解所提议变化的缘故。 3. 社区参与：PEPs 鼓励社区参与，为 提供一个正式的机制来让贡献者参与语言的发展。对 Python 发展的影响： 1. 合作：PEPs facilitates 合作中间的开发者，使得变化被充分讨论和审核后实施。 2. 稳定性和可靠性：PEPs 帮助确保 Python 语言的稳定性和可靠性，为 提供一个正式的机制来测试和完善所提议变化。 3. 创新：PEPs 允许社区创新，为 提供一个正式的机制来让开发者提议和实施新的想法和特征。PEPs 的创建对 Python 发展产生了巨大 的影响，使得语言能够演进，同时保持稳定性和可靠性。[PEP的链接](https://peps.python.org/)
+PEPs 的关键特征： 1. 结构化过程：PEPs遵循一个结构化的过程，包括： *提议提交* 初始审核和反馈 *修订提议和讨论* 最终决策和实施 2. 正式提议：PEPs要求正式的提议，包含： *对所提议变化的明确描述* 所提议变化的缘故 *考虑了的alternative* 对现有代码和用户的影响 3. 社区参与：PEPs鼓励社区参与，通过： *在邮件列表（例如 python-dev）上进行公共讨论* 由 Python 开发者和用户投票。PEPs 的重要性： 1. 标准化：PEPs 帮助标准化对 Python 语言的变化提议和实施过程。 2. 透明度：PEPs 增加了决策过程的透明度，允许开发者和用户理解所提议变化的缘故。 3. 社区参与：PEPs 鼓励社区参与，为 提供一个正式的机制来让贡献者参与语言的发展。对 Python 发展的影响： 1. 合作：PEPs facilitates 合作中间的开发者，使得变化被充分讨论和审核后实施。 2. 稳定性和可靠性：PEPs 帮助确保 Python 语言的稳定性和可靠性，为 提供一个正式的机制来测试和完善所提议变化。 3. 创新：PEPs 允许社区创新，为 提供一个正式的机制来让开发者提议和实施新的想法和特征。PEPs 的创建对 Python 发展产生了巨大 的影响，使得语言能够演进，同时保持稳定性和可靠性。[PEP的链接](https://peps.python.org/)
 
 2010年，python2.x版本中最后一个版本2.7版发布，Python 2.7 是一款重要的 Python 程式语言版本，它引入了一些新的特征和异常处理的改进，同时保持向后兼容性，使其成为开发和部署 Python-基于项目的一种可靠的选择。早在2008年，Python 发展了 3.0 版本，2011年Python 3.1 (2011)：添加了对 logging 模块的支持、提高了性能和可读性。Python 3.2 (2011)：引入了对 functools 模块的支持、提高了语法分析速度等。Python 3.3 (2012)：添加了对 decimal 模块的支持、提高了性能和可读性。Python 3.4 (2014)：引入了对 asyncio 模块的支持、提高了语法分析速度等。Python 3.5 (2016)：添加了对 typing 模块的支持、提高了性能和可读性。Python 3.6 (2017)：引入了对 async/await 语句的支持、提高了语法分析速度等。Python 3.7 (2018)：添加了对 f-strings 的支持、提高了性能和可读性。Python 3.8 (2020)：引入了对 dataclasses 模块的支持、提高了语法分析速度等。
 
@@ -107,19 +107,19 @@ Reference:
 
 1. 你同时工作在多个项目之间，每个项目都需要不同的依赖项，例如不同版本的python以及不同版本的第三方库。
 2. 你想要确保你的项目的依赖项不要与其他项目冲突。
-3. 你需要一个可重复的环境来测试或调试（debug)。
+3. 你需要一个可重复的环境来测试或调试(debug)。
 
 当我们创建了虚拟环境以后，需要设置一个Integrated Development Environment (IDE) 来支持它，这个界面就是我们实际编程的界面，它可以调用虚拟环境的python解释器，甚至是其他语言的解释器，一个好的IDE可以帮助提高我们的生产力。
 
 本手册使用者最常用的两款IDE是anaconda自带的spider和微软公司出品的visual studio code。其他常见的IDE有 eclipse, pycharm等等。以下仅介绍三种操作系统下anaconda+visual studio code的组合，该组合已经能够顺利完成本书所有任务。
 
-Anaconda ([https://www.anaconda.com]()) 是一款优秀的虚拟环境存放器，与之能完成类似工作的还有 miniconda ([https://docs.conda.io/projects/conda/en/stable/]() )同样由Anaconda公司开发。你也可以在安装完python([https://python.org]()) 后通过安装venv模块（pip install venv)进行设置。
+Anaconda ([https://www.anaconda.com]) 是一款优秀的虚拟环境存放器，与之能完成类似工作的还有 miniconda ([https://docs.conda.io/projects/conda/en/stable/])同样由Anaconda公司开发。你也可以在安装完python([https://python.org]) 后通过安装venv模块(pip install venv)进行设置。
 
-Visual studio code 是一款非常全面的IDE，不仅支持python，还支持例如C++等各种语言，并能够安装插件（extensions)提高生产力。要注意的是如果是windows用户，请安装**System installer版本**,可以获得更大的灵活性和自主权。
+Visual studio code 是一款非常全面的IDE，不仅支持python，还支持例如C++等各种语言，并能够安装插件(extensions)提高生产力。要注意的是如果是windows用户，请安装**System installer版本**,可以获得更大的灵活性和自主权。
 
 Anaconda 的下载界面如下：![1724339210752](image/Draft_v2024_1/1724339210752.png)
 
-Visual studio code的下载界面如下（[https://code.visualstudio.com/Download]()）
+Visual studio code的下载界面如下[https://code.visualstudio.com/Download]
 
 ![1724339239095](image/Draft_v2024_1/1724339239095.png)
 
@@ -139,13 +139,13 @@ conda config --set show_channel_urls yes
 
 检测镜像源是否已经安装成功：
 
-```
+```python
 conda config --show channels
 ```
 
 如果成功显示已经安装的镜像源，则安装成功
 
-其他的镜像源例如：阿里云镜像源 （[https://mirrors.aliyun.com/pypi/simple/]())；中科大镜像源 （[https://mirrors.ustc.edu.cn/anaconda/pkgs/free/]()）等均可以作为补充使用。
+其他的镜像源例如：阿里云镜像源 [https://mirrors.aliyun.com/pypi/simple/]；中科大镜像源 [https://mirrors.ustc.edu.cn/anaconda/pkgs/free/] 等均可以作为补充使用。
 
 ###### 创建python3.X环境
 
@@ -194,7 +194,7 @@ Python 是一种高级、解释型语言，得到了开发者、数据科学家�
 
 **注释**：使用 # 表示单行注释，或者使用两个前后呼应的 """ 或 ''' 表示多行注释。
 
-###### 变量和数据类型（variables and  data type)
+###### 变量和数据类型(variables and  data type)
 
 Python 支持多种数据类型，包括：
 
@@ -240,9 +240,9 @@ Python 支持多种数据类型，包括：
 以上基本操作符都有与之对应的增强赋值操作符（以上基本算数操作符加上一个=号）,如果用op代表以上基本算数操作符，则有 a op=y 等价于 a = a op y
 例如 x+=1 等价于 x =x+1
 
-###### 关于数据类型的一些重要知识点
+###### 重要知识点1
 
-**数据类型之间的转换**
+[**数据类型之间的转换**]
 
 Python 是一种动态类型语言，这意味着你不需要在使用变量之前显式声明数据类型。然而，在工作不同的数据类型时，你可能会遇到需要将一个数据类型转换为另一个的情况。 以下是常见的类型转换场景：
 
@@ -258,7 +258,7 @@ Python 是一种动态类型语言，这意味着你不需要在使用变量之�
 
 以下是一些数据转换的例子：
 
-```
+```python
 x = 5
 y = str(x)
 print(y)   # 输出:'5'
@@ -388,9 +388,9 @@ print(f"字母个数是：{vowel_count}")
 
 在第三个程序中，我们使用 while 循环来计算一个字符串中的元音字母个数。在循环中，我们使用 if 语句来检查每个字符是否是元音，然后使用 break 语句来跳出循环。
 
-###### 关于控制结构的一些重要知识点
+##### 重要知识点2
 
-**使用 While True 结构的时机**
+[**使用 While True 结构的时机**]
 
 While True 是编程中的一个基本概念，理解何时使用它非常重要。在 Python 中，while True 循环用于创建一个无限循环，即直到手动停止或出现异常为止。下面是某些情况可能需要使用 while True 的场景：
 
@@ -405,7 +405,7 @@ While True 是编程中的一个基本概念，理解何时使用它非常重要
 监控系统性能：关注你的程序性能，并根据需要调整循环以避免资源瓶颈。
 总之，使用 while True 时机是当你需要创建一个无限循环来持续执行代码或处理异常直到手动停止时。你只需要注意潜在问题并遵循高效编程的基本原则。
 
-**Python 异常处理：捕捉和处理异常的指南**
+[**Python 异常处理：捕捉和处理异常的指南**]
 
 什么是异常？
 
@@ -426,7 +426,7 @@ LookupError：在查找操作（例如字典或列表索引超出了范围）失
 
 以下是使用 try-except 块结构捕捉异常的例子：
 
-```
+```python
 try:
     # 可能会抛出异常的代码
     pass
@@ -460,14 +460,68 @@ finally 块无论是否引发了异常都将执行。在这个例子中，它只
 
 #### 1.4 练习
 
-1. ##### 根据教程使用自己的电脑分别建立两个python环境（python3.9和python3.11），并指出python3.9和python3.11的区别
-2. ##### 以下代码的输出是什么？
+##### 练习1
 
-   ```python
-   x = 5
-   y = "hello"
-   print(x + y)
-   ```
-3. ##### 写一个 Python 程序，模拟简单的剪刀石头布游戏。用户可以输入自己的选择（剪刀、石头或布），然后计算机将随机选择。程序应该具有捕捉异常的功能并打印出游戏结果。
+现有变量
+x = 3.14159
+y = "123"
+z = "abc"
+请按照指示完成以下任务：
 
-MIT Licensed | Copyright © 2024-present by [Yun Liao ](mailto:james@x.cool)
+* （a）将变量 x 进行适当的数据类型转换（例如转为保留两位小数的字符串）。
+* （b）将变量 y 转换成整数。
+* （c）试着将变量 z 转换成数值（观察报错信息并解释原因）。
+
+##### 练习2
+
+编写程序判断输入的一个正整数n，计算其范围内所有自然数之和。
+其中：
+如果满足 n % 2 == 0：将所有偶数平方相加。
+否则，如果满足 n % 3 == 0：将所有整除3的数字的平方相加
+若既不被2也不能整除3，则所有数字的平方都算进和。
+
+##### 练习3
+
+写一个 Python 程序，模拟简单的石头剪刀布游戏。用户可以输入自己的选择（剪刀、石头或布），然后计算机将随机选择。程序应该具有捕捉异常的功能并打印出游戏结果。
+
+##### 练习4
+
+请编写一段程序实现以下功能：
+
+该程序能够验证输入数据有效性，并基于特定规则生成分析报告，用户可通过命令行交互方式输入多个数值数据表示每日成交金额（单位：万元），程序执行以下操作：
+当用户输入 stop 时终止输入。验证每次输入的数据是否为大于0的有效正数；如果输入无效，给出相应提示信息并跳过该次输入不计入统计。
+若某个合法值小于前一轮的最小值，则将其替换为"最小值"标记并在统计数据中标注此值。使用 while True 循环实现不间断数据输入与分析，配合 break 语句优雅中断流程。
+
+* 在最终打印所有分析结果之前，请判断所有已接收的数据个数：
+小于2个 → 提示 "数据不足"；
+恰好2个 → 直接显示第一个和第二个数据（不做进一步处理）；
+最终输出包含以下内容：
+
+* 输入的全部非空数值列表；
+* 有效数据个数
+* 平均值（保留两位小数）
+* 标准差（可使用 math.sqrt() 实现计算）
+* 最小值
+  
+```python
+请输入每日成交金额 (输入 'stop' 退出)：430
+请输入每日成交金额 (输入 'stop' 退出)：720
+请输入每日成交金额 (输入 'stop' 退出)：510
+请输入每日成交金额 (输入 'stop' 退出)：890
+请输入每日成交金额 (输入 'stop' 退出)：
+输入错误！只能接受正数。
+输入每日成交金额 (输入 'stop' 退出)：0  
+您输入为无效值：必须为正数值；
+输入每日成交金额 (输入 'stop' 退出)：abc
+您输入为无效值：无效类型的数字。 
+请输入每日成交金额 (输入 'stop' 退出)：910  
+
+###output:
+[430.0, 720.0, 510.0, 890.0, 910.0]
+有效数据个数: 5
+平均值: 
+标准差:   
+最小值: [430.0]
+```
+
+MIT Licensed | Copyright © 2024-present by [Yun Liao](mailto:james@x.cool)
