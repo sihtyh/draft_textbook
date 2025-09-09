@@ -462,9 +462,8 @@ with open('large_log_file.txt', 'r') as f:
 * 6、限制输入英文数字下划线： ^[A-Za-z0-9-_]+$
 * 7、中英文数字下划线横线： ^[\u4e00-\u9fa5A-Za-z0-9-_]+$
 
-* 一个正则表达式问题：
-text="姓名：coolperson 年龄：21"
-如何分别输出coolperson 和 21
+**一个正则表达式问题：**
+text="姓名：coolperson 年龄：21"，如何根据姓名和年龄分别输出coolperson 和 21。
 
 #### 2.3 字典和集合
 
